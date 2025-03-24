@@ -40,6 +40,43 @@ def agregar_producto(productos):
             linea = f"{producto['ID_Producto']},{producto['Nombre']},{producto['Categoría']},{producto['Precio']},{producto['Stock']}\n"
             file.write(linea)
 
+def mostrarp(id):
+    with open("productos.csv", 'r') as file:
+        lines = file.readlines()
+        j=0
+        k=0
+        for line in lines:
+            j=j+1
+        for line in lines:
+            k=k+1
+            v =line.split(',')
+            if v[0] != 'ID_Producto' and int(v[0]) == int(id):
+                print('La id del pedido es:'+v[0]+'\nEl nombre del pedido es: '+ v[1] +'\nLa categoria del pedido es: '+v[2]+'\nEl precio del pedido es: '+v[3]+'\nEl stock del pedido es: '+v[4])
+            elif k==j:
+                print('El pedido no existe')
+
+def actualizarp(id,productos):
+    with open('productos.csv', 'r') as file:
+        lines = file.readlines()
+        j=0
+        for line in lines:
+            j=j+1
+        with open('productos.csv', 'w') as file:
+           l=0
+           k=1
+           for line in lines:
+                l=l+1
+                v =line.split(',')
+                if v[0] != 'ID_Producto' and int(v[0]) == int(id):
+                    for i in productos:
+                        file.write(str(i['Nombre']) + ',' + i['Categoría'] + ',' + i['Precio'] + ',' + i['Stock'] + '\n')
+                    k = 0
+                elif k != 0 and l==j:
+                    file.write(line)
+                    print('No se encontro el producto')
+                else:
+                    file.write(line)
+
 productos = [
     {"ID_Producto": 1, "Nombre": "Laptop", "Categoría": "Electrónica", "Precio": 2000000, "Stock": 50},
     {"ID_Producto": 2, "Nombre": "Zapatos", "Categoría": "Calzado", "Precio": 270000, "Stock": 10},
@@ -74,29 +111,52 @@ Crear_Archivo_Ventas(ventas)
 Crear_Archivo_Compras(compras)
 c=4
 k=4
+f=4
+y=4
 for i in range(0, 99):  
-    condicion= input('¿Que desea hacer? \n 1. Ver opciones de producto\n 2. Agregar un nuevo cliente. \n 3. Calcular el total de ventas por producto. \n 4. Ver clientes que han realizado compras. \n 5. Salir \n')
-    while int(condicion)< 1 or int(condicion) > 7:
-        print ('Opcion Invalida, digite nuevamente \n')
-        condicion = input('¿Que desea hacer? \n 1. Ver opciones de producto \n 2. \n 3. \n 4.  \n 5. Salir \n')
+    condicion= input('¿Que desea hacer? \n1. Gestión de Productos \n2. Gestión de Proveedores \n3. Gestión de Ventas \n4. Gestión de Compras \n5. Reportes \n6. Salir\n')
+    while int(condicion)< 1 or int(condicion) > 6:
+        print ('Opcion Invalida, digite nuevamente')
+        condicion = input('¿Que desea hacer? \n1. Gestión de Productos \n2. Gestión de Proveedores \n3. Gestión de Ventas \n4. Gestión de Compras \n5. Reportes \n6. Salir\n')
 
     if condicion == '1':
-        co = input('1.Agregar producto \n 2.Actualizar producto \n3.Volver al menú anterior')
+        co = input('\n1. Registrar Producto\n2. Buscar Producto\n3. Actualizar Producto\n4. Eliminar Producto\n5. Volver al Menú Principal\n')
         if co == '1':
             k=k+1
-            print("\n--- Agregar un Nuevo Producto ---")
             nombre = input("Ingrese el nombre del producto: ")
             categoria = input("Ingrese la categoría del producto: ")
             precio = input("Ingrese el precio del producto: ")
             stock = input("Ingrese el stock del producto: ")
             productos = [{"ID_Producto":k,"Nombre":nombre ,"Categoría":categoria, "Precio":precio, "Stock":stock}]
             agregar_producto(productos)
-            print(' \n --- AGREGADO CON EXITO   --- \n')
+            print(' \nAgregado con exito \n')
         elif co == '2':
+            print('¿Que producto quiere buscar?')
+            ids = input()
+            mostrarp(ids)
 
-            break
         elif co == '3':
-            break
+            print('¿Que producto quiere actualizar?')
+            ids = input()
+            nombre = input("Ingrese el nombre del producto: ")
+            categoria = input("Ingrese la categoría del producto: ")
+            precio = input("Ingrese el precio del producto: ")
+            stock = input("Ingrese el stock del producto: ")
+            productos = [{"Nombre":nombre ,"Categoría":categoria, "Precio":precio, "Stock":stock}]
+            actualizarp(ids,productos)
+
+    elif condicion == '2':
+        co = input('\n1. Registrar Proveedor\n2. Buscar Proveedor\n3. Actualizar Proveedor\n4. Eliminar Proveedor\n5. Volver al Menú Principal\n')
+
+    elif condicion == '3':
+        co = input('\n1. Registrar Venta\n2. Buscar Venta\n3. Actualizar Venta\n4. Eliminar Venta\n5. Volver al Menú Principal\n')
+
+    elif condicion == '4':
+        co = input('\n1. Registrar Compra\n2. Buscar Compra\n3. Actualizar Compra\n4. Eliminar Compra\n5. Volver al Menú Principal\n')
+
     elif condicion == '5':
-        print('CHAO ZORRA')
+        co = input('\n1. Productos con menor stock\n2. Proveedores más frecuentes\n3. Ventas por período de tiempo\n4. Productos más vendidos\n')
+
+    elif condicion == '6':
+        print('\nSaliendo del sistema...')
         break

@@ -255,8 +255,7 @@ def eliminarv(id):
                 l=l+1
                 v =line.split(',')
                 if v[0] != 'id' and int(v[0]) == int(id):
-                    for i in productos:
-                        file.write('')
+                    file.write('')
                     k = 0
                 elif k != 0 and l==j:
                     file.write(line)

@@ -196,43 +196,33 @@ def eliminarp2(id):
                 else:
                     file.write(line)
 
-def agregar_venta(ventas):
+def resta(cantidad):
     with open("productos.csv", 'r') as file:
         lines = file.readlines()
     with open("productos.csv", 'w') as file:
         for line in lines:   
             v =line.split(',')
             if v[0] == idp:
-                nuevo_stock =  int(ventas[0]['Cantidad']) - int(v[4])   
+                nuevo_stock =  int(v[4]) - int(cantidad)   
                 v[4]=str(nuevo_stock)
                 linea = f"{v[0]},{v[1]},{v[2]},{v[3]},{v[4]}\n"
             else:
                 linea = line 
             file.write(linea)
-        with open("ventas.csv", 'a') as file:
-            for venta in ventas:
-                file.write(
-                f"{venta['ID_Venta']},{venta['ID_Producto']},{venta['ID_Cliente']},{venta['Fecha_Venta']},{venta['Cantidad']}\n"
-                )
 
-def agregar_com(compras):
+def suma(cantidad):
     with open("productos.csv", 'r') as file:
         lines = file.readlines()
     with open("productos.csv", 'w') as file:
         for line in lines:   
             v =line.split(',')
             if v[0] == idp:
-                nuevo_stock =   int(v[4]) + int(compras[0]['Cantidad'])  
+                nuevo_stock =  int(v[4]) + int(cantidad)   
                 v[4]=str(nuevo_stock)
                 linea = f"{v[0]},{v[1]},{v[2]},{v[3]},{v[4]}\n"
             else:
                 linea = line 
             file.write(linea)
-        with open('compras.csv', 'a') as file:
-            for compra in compras:
-                file.write(
-                f"{compra['ID_Compra']},{compra['ID_Producto']},{compra['ID_Proveedor']},{compra['Fecha_Compra']},{compra['Cantidad']}\n" 
-                )
  
 def mostrarv(id):
     with open("ventas.csv", 'r') as file:
@@ -290,38 +280,38 @@ def eliminarv(id):
                 else:
                     file.write(line)
 
-productos = [
+producto = [
     {"ID_Producto": 1, "Nombre": "Laptop", "Categoría": "Electrónica", "Precio": 2000000, "Stock": 50},
     {"ID_Producto": 2, "Nombre": "Zapatos", "Categoría": "Calzado", "Precio": 270000, "Stock": 10},
     {"ID_Producto": 3, "Nombre": "Camiseta", "Categoría": "Ropa", "Precio": 50000, "Stock": 30},
     {"ID_Producto": 4, "Nombre": "Cuadernos", "Categoría": "Útiles", "Precio": 5000, "Stock": 10}
 ]
 
-proveedores = [
+proveedore = [
     {"id":1, "Nombre":"TecnoSuministros S.A.", "Contacto":"contacto@tecnosuministros.com", "Direccion":"Calle 123 #45-67, Bogotá, Colombia"},
     {"id":2, "Nombre":"Calzados y Más", "Contacto":"info@calzadosymas.com", "Direccion":"Avenida Principal #98-76, Medellín, Colombia"},
     {"id":3, "Nombre":"Textiles Modernos", "Contacto":"ventas@textilesmodernos.com", "Direccion":"Carrera 56 #12-34, Cali, Colombia"},
     {"id":4, "Nombre":"Papelería Educativa", "Contacto":"servicio@papeleriaeducativa.com", "Direccion":"Calle 89 #10-11, Barranquilla, Colombia"}
 ]
 
-ventas = [
+venta = [
     {"ID_Venta": 1, "ID_Producto": 1, "ID_Cliente": 1, "Fecha_Venta": "2023-10-01", "Cantidad": "2"},
     {"ID_Venta": 2, "ID_Producto": 2, "ID_Cliente": 2, "Fecha_Venta": "2023-10-02", "Cantidad": "1"},
     {"ID_Venta": 3, "ID_Producto": 3, "ID_Cliente": 3, "Fecha_Venta": "2023-10-03", "Cantidad": "5"},
     {"ID_Venta": 4, "ID_Producto": 4, "ID_Cliente": 4, "Fecha_Venta": "2023-10-04", "Cantidad": "3"}
 ]
 
-compras = [
+compra = [
     {"ID_Compra": 1, "ID_Producto": 1, "ID_Proveedor": 1, "Fecha_Compra": "2023-09-25", "Cantidad": "10"},
     {"ID_Compra": 2, "ID_Producto": 2, "ID_Proveedor": 2, "Fecha_Compra": "2023-09-26", "Cantidad": "20"},
     {"ID_Compra": 3, "ID_Producto": 3, "ID_Proveedor": 3, "Fecha_Compra": "2023-09-27", "Cantidad": "15"},
     {"ID_Compra": 4, "ID_Producto": 4, "ID_Proveedor": 4, "Fecha_Compra": "2023-09-28", "Cantidad": "30"}
 ]
 
-Crear_Archivo_Productos(productos)
-Crear_Archivo_Proveedores(proveedores)
-Crear_Archivo_Ventas(ventas)
-Crear_Archivo_Compras(compras)
+Crear_Archivo_Productos(producto)
+Crear_Archivo_Proveedores(proveedore)
+Crear_Archivo_Ventas(venta)
+Crear_Archivo_Compras(compra)
 create_indexp()
 create_indexp2()
 create_indexv()
@@ -356,8 +346,8 @@ for i in range(0, 99):
             while precio == '':
                 precio=input('precion inválid0, digitelo nievamente: ')
             stock = input("Ingrese el stock del producto: ")
-            productos = [{"ID_Producto":k,"Nombre":nombre ,"Categoría":categoria, "Precio":precio, "Stock":stock}]
-            agregar_producto(productos)
+            producto = Producto(k, nombre , categoria, precio, stock)
+            escribir('producos.csv',producto)
             print(' \nAgregado con exito \n')
         elif co == '2':
             print('¿Que producto quiere buscar?')
@@ -425,8 +415,8 @@ for i in range(0, 99):
             nombre = input("Ingrese el nombre del proveedor: ")
             contacto = input("Ingrese el contacto del proveedor: ")
             direccion = input("Ingrese la direccion del proveedor: ")
-            proveedor = [{"id":c,"Nombre":nombre ,"Contacto":contacto, "Direccion":direccion}]
-            agregar_proveedor(proveedor)
+            nuevopro = Proveedor(c,nombre ,contacto, direccion)
+            escribir('proveedores.csv',nuevopro)
             print(' \nAgregado con exito \n')
 
         elif co == '2':
@@ -496,8 +486,9 @@ for i in range(0, 99):
             idc = input("Ingrese el id del cliente: ")
             fecha = input("Ingrese la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
-            venta = [{"ID_Venta":f,"ID_Producto":idp ,"ID_Cliente":idc, "Fecha_Venta":fecha, "Cantidad":cantidad}]
-            agregar_venta(venta)
+            venta = Venta(f, idp, idc, fecha, cantidad)
+            escribir('ventas.csv',venta)
+            resta(cantidad)
             print(' \nAgregado con exito \n')
 
         elif co == '2':
@@ -566,8 +557,9 @@ for i in range(0, 99):
             idc = input("Ingrese el id del cliente: ")
             fecha = input("Ingrese la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
-            compras = [{"ID_Compra":j,"ID_Producto":idp ,"ID_Proveedor":idc, "Fecha_Compra":fecha, "Cantidad":cantidad}]
-            agregar_com(compras)
+            compras = Compra(j, idp , idc, fecha, cantidad)
+            escribir('compras.csv',compras)
+            suma(cantidad)
             print(' \nAgregado con exito \n')
 
     elif condicion == '5':

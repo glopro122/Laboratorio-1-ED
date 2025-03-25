@@ -127,7 +127,7 @@ def eliminarp(id):
            for line in lines:
                 l=l+1
                 v =line.split(',')
-                if v[0] != 'ID_Producto' and int(v[0]) == int(id):
+                if  int(v[0]) == int(id):
                     for i in productos:
                         file.write('')
                     k = 0
@@ -346,11 +346,15 @@ for i in range(0, 99):
                 nombre=input ('Nombre inválido, Digitelo nuevamente')
             categoria = input("Ingrese la categoría del producto: ")
             while categoria =='':
-                categpria=input ('Catagoria inválido, Digitelo nuevamente')
+                categpria=input ('Catagoria inválido, Digitelo nuevamente:')
             precio = input("Ingrese el precio del producto: ")
-            while precio == '':
-                precio=input('precion inválid0, digitelo nievamente: ')
+            while precio == '' or int(precio)<0:
+                precio=input('precion inválid0, digitelo nievamente \n'
+                'Recuerde que no se permiten datos negativos ')
             stock = input("Ingrese el stock del producto: ")
+            while stock == '' or int(stock)<0:
+                stock=input("stock inválidpo, ingrese nuevamente el stock \n"
+                "Recuerde que no se permiten datos negativos")
             producto = Producto(k, nombre , categoria, precio, stock)
             escribir('productos.csv',producto)
             print(' \nAgregado con exito \n')
@@ -390,14 +394,14 @@ for i in range(0, 99):
             while nombre == '':
                 nombre = input("Ingrese nuevamente el nombre del producto: ")
             categoria = input("Ingrese la categoría del producto: ")
-            while categpria == '':
+            while categoria == '':
                 categoria = input("Ingrese nuevamente la categoría del producto: ")
             precio = input("Ingrese el precio del producto: ")
-            while precio == '' or precio < 0:
+            while precio == '' or int(precio) < 0:
                 precio = input("Ingrese nuevamente el precio del producto: \n"
                 "Recuerde que no se admiten valorse negativos ")
             stock = input("Ingrese el stock del producto: ")
-            while stock == '' or stock <0:
+            while stock == '' or int(stock) <0:
                 stock = input("Ingrese nuevamente el stock del producto, \n"
                 "Recuerde que no se admiten valores negativos: ")
             productos = [{"Nombre":nombre ,"Categoría":categoria, "Precio":precio, "Stock":stock}]
@@ -432,7 +436,7 @@ for i in range(0, 99):
             while nombre == '':
                 nombre = input("Ingrese nuevamente el nombre del proveedor: ")
             contacto = input("Ingrese el contacto del proveedor: ")
-            while contacto == '' or contacto<0:
+            while contacto == '':
                 contacto = input("Ingrese nuevamente el contacto del proveedor, \n"
                 "Recuerde que solo se admiten valores: ")
             direccion = input("Ingrese la direccion del proveedor: ")
@@ -506,13 +510,22 @@ for i in range(0, 99):
 
     elif condicion == '3':
         co = input('\n1. Registrar Venta\n2. Buscar Venta\n3. Actualizar Venta\n4. Eliminar Venta\n5. Volver al Menú Principal\n')
-
         if co == '1':
             f=f+1
             idp = input("Ingrese el id del producto ")
+            while idp == '' or int(idp)<0:
+                idp = input("Id del producto inválido, ingrese nuevamente el id del producto, \n"
+                "Recuerde que no es válido ingresar ids negativos ")
             idc = input("Ingrese el id del cliente: ")
+            while idc == '' or int(idc)<0:
+                idc = input("Id del cliente inválido, ingrese nuevamente el id del cliente: \n"
+                "Recuerde que el id debe ser positivio")
             fecha = input("Ingrese la fecha: ")
+            while fecha == '':
+                fecha = input("Fecha inválida. ingrese nuevamente la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
+            while cantidad == '' or int(cantidad)<0:
+                cantidad=input("Cantidad inválida, ingrese nuevamente la cantidad del producto")
             venta = Venta(f, idp, idc, fecha, cantidad)
             escribir('ventas.csv',venta)
             resta(cantidad,idp)
@@ -551,9 +564,19 @@ for i in range(0, 99):
                     print('¿Cual es su id?')
                     ids = input()
             idp = input("Ingrese el id del producto ")
+            while idp == '' or int(idp)<0:
+                idp = input("Id del producto inválido, ingrese nuevamente el id del producto, \n"
+                "Recuerde que no es válido ingresar ids negativos ")
             idc = input("Ingrese el id del cliente: ")
+            while idc == '' or int(idc)<0:
+                idc = input("Id del cliente inválido, ingrese nuevamente el id del cliente: \n"
+                "Recuerde que el id debe ser positivio")
             fecha = input("Ingrese la fecha: ")
+            while fecha == '':
+                fecha = input("Fecha inválida. ingrese nuevamente la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
+            while cantidad == '' or int(cantidad)<0:
+                cantidad=input("Cantidad inválida, ingrese nuevamente la cantidad del producto")
             ventas = [{"ID_Producto":idp ,"ID_Cliente":idc, "Fecha_Venta":fecha, "Cantidad":cantidad}]
             actualizarv(ids,ventas)
 
@@ -581,10 +604,20 @@ for i in range(0, 99):
         co = input('\n1. Registrar Compra\n2. Buscar Compra\n3. Actualizar Compra\n4. Eliminar Compra\n5. Volver al Menú Principal\n')
         if co == '1':
             j=j+1
-            idp = input("Ingrese el id del producto: ")
+            idp = input("Ingrese el id del producto ")
+            while idp == '' or int(idp)<0:
+                idp = input("Id del producto inválido, ingrese nuevamente el id del producto, \n"
+                "Recuerde que no es válido ingresar ids negativos ")
             idc = input("Ingrese el id del cliente: ")
+            while idc == '' or int(idc)<0:
+                idc = input("Id del cliente inválido, ingrese nuevamente el id del cliente: \n"
+                "Recuerde que el id debe ser positivio")
             fecha = input("Ingrese la fecha: ")
+            while fecha == '':
+                fecha = input("Fecha inválida. ingrese nuevamente la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
+            while cantidad == '' or int(cantidad)<0:
+                cantidad=input("Cantidad inválida, ingrese nuevamente la cantidad del producto")
             compras = Compra(j, idp , idc, fecha, cantidad)
             escribir('compras.csv',compras)
             suma(cantidad,idp)

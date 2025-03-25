@@ -201,11 +201,23 @@ def eliminarp2(id):
                     file.write(line)
 
 def agregar_venta(ventas):
-    with open("ventas.csv", 'a') as file:
-        for venta in ventas:
-            file.write(
+    with open("productos.csv", 'r') as file:
+        lines = file.readlines()
+    with open("productos.csv", 'w') as file:
+        for line in lines:   
+            v =line.split(',')
+            if v[0] == idp:
+                nuevo_stock =  int(ventas[0]['Cantidad']) - int(v[4])   
+                v[4]=str(nuevo_stock)
+                linea = f"{v[0]},{v[1]},{v[2]},{v[3]},{v[4]}\n"
+            else:
+                linea = line 
+            file.write(linea)
+        with open("ventas.csv", 'a') as file:
+            for venta in ventas:
+                file.write(
                 f"{venta['ID_Venta']},{venta['ID_Producto']},{venta['ID_Cliente']},{venta['Fecha_Venta']},{venta['Cantidad']}\n"
-            )
+                )
 
 def agregar_com(compras):
     with open("productos.csv", 'r') as file:
@@ -340,9 +352,17 @@ for i in range(0, 99):
         if co == '1':
             k=k+1
             nombre = input("Ingrese el nombre del producto: ")
+            while nombre  == '':
+                nombre=input ('Nombre inválido, Digitelo nuevamente')
             categoria = input("Ingrese la categoría del producto: ")
+            while categoria =='':
+                categpria=input ('Catagoria inválido, Digitelo nuevamente')
             precio = input("Ingrese el precio del producto: ")
+            while precio == '':
+                precio=input('precion inválid0, digitelo nievamente: ')
             stock = input("Ingrese el stock del producto: ")
+            while stock == '':
+                stock = input("Stock inválido, digitelo nuevamente: ")
             productos = [{"ID_Producto":k,"Nombre":nombre ,"Categoría":categoria, "Precio":precio, "Stock":stock}]
             agregar_producto(productos)
             print(' \nAgregado con exito \n')
@@ -362,7 +382,6 @@ for i in range(0, 99):
                     print('¿Cual es la id?')
                     ids = input()
             mostrarp(ids)
-
         elif co == '3':
             print('¿Que producto quiere actualizar?')
             ids = input()

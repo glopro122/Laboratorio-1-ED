@@ -10,7 +10,7 @@ def Crear_Archivo_Productos(productos):
             )
 
 def escribir(file_path, line):
-    with open(file_path, mode='a', newline='') as file:
+    with open(file_path,'a') as file:
         if isinstance(line, Producto):
             line_str = f"{line.id_producto},{line.nombre},{line.categoria},{line.precio},{line.stock}\n"
         elif isinstance(line, Compra):
@@ -347,7 +347,7 @@ for i in range(0, 99):
                 precio=input('precion inválid0, digitelo nievamente: ')
             stock = input("Ingrese el stock del producto: ")
             producto = Producto(k, nombre , categoria, precio, stock)
-            escribir('producos.csv',producto)
+            escribir('productos.csv',producto)
             print(' \nAgregado con exito \n')
         elif co == '2':
             print('¿Que producto quiere buscar?')

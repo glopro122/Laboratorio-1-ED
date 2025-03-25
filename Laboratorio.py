@@ -77,6 +77,9 @@ def actualizarp(id,productos):
                 else:
                     file.write(line)
 
+
+        
+
 productos = [
     {"ID_Producto": 1, "Nombre": "Laptop", "Categoría": "Electrónica", "Precio": 2000000, "Stock": 50},
     {"ID_Producto": 2, "Nombre": "Zapatos", "Categoría": "Calzado", "Precio": 270000, "Stock": 10},
@@ -147,7 +150,7 @@ for i in range(0, 99):
 
     elif condicion == '2':
         co = input('\n1. Registrar Proveedor\n2. Buscar Proveedor\n3. Actualizar Proveedor\n4. Eliminar Proveedor\n5. Volver al Menú Principal\n')
-
+        
     elif condicion == '3':
         co = input('\n1. Registrar Venta\n2. Buscar Venta\n3. Actualizar Venta\n4. Eliminar Venta\n5. Volver al Menú Principal\n')
 

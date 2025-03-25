@@ -247,14 +247,15 @@ def actualizarv(id,venta):
            l=0
            k=1
            for line in lines:
-                v =line.split(',')
-                v = v.split('\n')
+                v = line.strip().split(',')
                 l=l+1
                 if v[0] != 'ID_Venta' and int(v[0]) == int(id):
                     for i in venta:
                         file.write(str(v[0]) + ',' + i['ID_Producto'] + ',' + i['ID_Cliente'] + ',' + i['Fecha_Venta'] + ',' + i['Cantidad'] + '\n')
                         if int(v[4]) < int(cantidad):
-                            resta(int(v[4]) - int(cantidad))
+                            resta(int(cantidad) - int(v[4]))
+                        elif int(v[4]) > int(cantidad):
+                            suma(int(v[4]) - int(cantidad))
                     k = 0
                 elif k != 0 and l==j:
                     file.write(line)

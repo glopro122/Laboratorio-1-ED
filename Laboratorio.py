@@ -1,8 +1,4 @@
-producto = 'productos.csv'
-proveedor = 'proveedores.csv'
-venta = 'ventas.csv'
-compra = 'compras.csv'
-
+from classes import Compra, Venta, Producto, Proveedor
 
 def Crear_Archivo_Productos(productos):
     with open('productos.csv', 'w') as file:
@@ -12,6 +8,18 @@ def Crear_Archivo_Productos(productos):
             file.write(
                 f"{producto['ID_Producto']},{producto['Nombre']},{producto['Categoría']},{producto['Precio']},{producto['Stock']}\n"
             )
+
+def escribir(file_path, line):
+    with open(file_path, mode='a', newline='') as file:
+        if isinstance(line, Producto):
+            line_str = f"{line.id_producto},{line.nombre},{line.categoria},{line.precio},{line.stock}\n"
+        elif isinstance(line, Compra):
+            line_str = f"{line.id_compra},{line.id_producto},{line.id_proveedor},{line.fecha_compra},{line.cantidad}\n"
+        elif isinstance(line, Venta):
+            line_str = f"{line.id_venta},{line.id_producto},{line.id_cliente},{line.fecha_venta},{line.cantidad}\n"
+        elif isinstance(line, Proveedor):
+            line_str = f"{line.id},{line.nombre},{line.contacto},{line.direccion}\n"
+        file.write(line_str)
 
 def Crear_Archivo_Proveedores(proveedores):
     with open('proveedores.csv', 'w') as file:
@@ -72,12 +80,6 @@ def create_indexc():
             id = lines[i].split(',')[0]
             file.write(str(i) + ',' + id + '\n')
 
-def agregar_producto(productos):
-    with open("productos.csv", 'a') as file:
-        for producto in productos:
-            linea = f"{producto['ID_Producto']},{producto['Nombre']},{producto['Categoría']},{producto['Precio']},{producto['Stock']}\n"
-            file.write(linea)
-
 def mostrarp(id):
     with open("productos.csv", 'r') as file:
         lines = file.readlines()
@@ -135,12 +137,6 @@ def eliminarp(id):
                 else:
                     file.write(line)
 
-def agregar_proveedor(proveedores):
-    with open("proveedores.csv", 'a') as file:
-        for proveedor in proveedores:
-            linea = f"{proveedor['id']},{proveedor['Nombre']},{proveedor['Contacto']},{proveedor['Direccion']}\n"
-            file.write(linea)
-
 def mostrarp2(id):
     with open("proveedores.csv", 'r') as file:
         lines = file.readlines()
@@ -169,7 +165,7 @@ def actualizarp2(id,proveedores):
                 l=l+1
                 v =line.split(',')
                 if v[0] != 'id' and int(v[0]) == int(id):
-                    for i in productos:
+                    for i in proveedores:
                         file.write(str(v[0]) + ',' + i['Nombre'] + ',' + i['Contacto'] + ',' + i['Direccion'] + '\n')
                     k = 0
                 elif k != 0 and l==j:
@@ -342,8 +338,10 @@ for i in range(0, 99):
             categoria = input("Ingrese la categoría del producto: ")
             precio = input("Ingrese el precio del producto: ")
             stock = input("Ingrese el stock del producto: ")
-            productos = [{"ID_Producto":k,"Nombre":nombre ,"Categoría":categoria, "Precio":precio, "Stock":stock}]
-            agregar_producto(productos)
+            nuevop = Producto(k, nombre, categoria, precio, stock)
+            #productos = [{"ID_Producto":k,"Nombre":nombre ,"Categoría":categoria, "Precio":precio, "Stock":stock}]
+            #agregar_producto(productos)
+            escribir('productos.csv',nuevop)
             print(' \nAgregado con exito \n')
         elif co == '2':
             print('¿Que producto quiere buscar?')

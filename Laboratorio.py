@@ -107,7 +107,7 @@ def actualizarp(id,productos):
                 v =line.split(',')
                 if v[0] != 'ID_Producto' and int(v[0]) == int(id):
                     for i in productos:
-                        file.write(str(i['Nombre']) + ',' + i['Categoría'] + ',' + i['Precio'] + ',' + i['Stock'] + '\n')
+                        file.write(str(v[0])+ ',' +i['Nombre'] + ',' + i['Categoría'] + ',' + i['Precio'] + ',' + i['Stock'] + '\n')
                     k = 0
                 elif k != 0 and l==j:
                     file.write(line)
@@ -395,6 +395,73 @@ for i in range(0, 99):
 
     elif condicion == '3':
         co = input('\n1. Registrar Venta\n2. Buscar Venta\n3. Actualizar Venta\n4. Eliminar Venta\n5. Volver al Menú Principal\n')
+
+        if co == '1':
+            f=f+1
+            nombre = input("Ingrese el nombre del proveedor: ")
+            contacto = input("Ingrese el contacto del proveedor: ")
+            direccion = input("Ingrese la direccion del proveedor: ")
+            proveedor = [{"id":c,"Nombre":nombre ,"Contacto":contacto, "Direccion":direccion}]
+            agregar_proveedor(proveedor)
+            print(' \nAgregado con exito \n')
+
+        elif co == '2':
+            print('¿Que producto quiere buscar?')
+            ids = input()
+            while h:
+                try:
+                    while ids == '' or int(ids) >c:
+                        print('Ese numero no corresponde a ninguna id registrada')
+                        print('¿Cual es su id?')
+                        ids = input()
+                    if int(ids) <= c:
+                        h = False
+                except ValueError:
+                    print('Por favor escriba un numero')
+                    print('¿Cual es su id?')
+                    ids = input()
+            mostrarp2(ids)
+
+        elif co == '3':
+            print('¿Que proveedor quiere actualizar?')
+            ids = input()
+            while h:
+                try:
+                    while ids == '' or int(ids) >f:
+                        print('Ese numero no corresponde a ninguna id registrada')
+                        print('¿Cual es su id?')
+                        ids = input()
+                    if int(ids) <= c:
+                        h = False
+                except ValueError:
+                    print('Por favor escriba un numero')
+                    print('¿Cual es su id?')
+                    ids = input()
+            nombre = input("Ingrese el nombre del proveedor: ")
+            contacto = input("Ingrese el contacto del proveedor: ")
+            direccion = input("Ingrese la direccion del proveedor: ")
+            productos = [{"Nombre":nombre ,"Contacto":contacto, "Direccion":direccion}]
+            actualizarp2(ids,productos)
+
+        elif co == '4':
+            print('¿Que proveedor quiere eliminar?')
+            ids = input()
+            while h:
+                try:
+                    while ids == '' or int(ids) >c:
+                        print('Ese numero no corresponde a ninguna id registrada')
+                        print('¿Cual es el id?')
+                        ids = input()
+                    if int(ids) <= c:
+                        h = False
+                except ValueError:
+                    print('Por favor escriba un numero')
+                    print('¿Cual es su id?')
+                    ids = input()
+            eliminarp2(ids)
+
+        elif co == '5':
+            condicion = 0
 
     elif condicion == '4':
         co = input('\n1. Registrar Compra\n2. Buscar Compra\n3. Actualizar Compra\n4. Eliminar Compra\n5. Volver al Menú Principal\n')

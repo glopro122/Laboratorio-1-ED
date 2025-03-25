@@ -9,8 +9,8 @@ def Crear_Archivo_Productos(productos):
                 f"{producto['ID_Producto']},{producto['Nombre']},{producto['Categoría']},{producto['Precio']},{producto['Stock']}\n"
             )
 
-def escribir(file_path, line):
-    with open(file_path,'a') as file:
+def escribir(doc, line):
+    with open(doc,'a') as file:
         if isinstance(line, Producto):
             line_str = f"{line.id_producto},{line.nombre},{line.categoria},{line.precio},{line.stock}\n"
         elif isinstance(line, Compra):
@@ -243,12 +243,13 @@ def actualizarv(id,venta):
         j=0
         for line in lines:
             j=j+1
+            v =line.split(',')
+        #if 
         with open('ventas.csv', 'w') as file:
            l=0
            k=1
            for line in lines:
                 l=l+1
-                v =line.split(',')
                 if v[0] != 'id' and int(v[0]) == int(id):
                     for i in venta:
                         file.write(str(v[0]) + ',' + i['Nombre'] + ',' + i['Contacto'] + ',' + i['Direccion'] + '\n')

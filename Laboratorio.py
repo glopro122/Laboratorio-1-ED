@@ -265,7 +265,7 @@ for i in range(0, 99):
             agregar_producto(productos)
             print(' \nAgregado con exito \n')
         elif co == '2':
-            print('¿Que proveedor quiere buscar?')
+            print('¿Que producto quiere buscar?')
             ids = input()
             while h:
                 try:

@@ -1,8 +1,4 @@
-producto = 'productos.csv'
-proveedor = 'proveedores.csv'
-venta = 'ventas.csv'
-compra = 'compras.csv'
-
+from classes import Compra, Venta, Producto, Proveedor
 
 def Crear_Archivo_Productos(productos):
     with open('productos.csv', 'w') as file:
@@ -12,6 +8,18 @@ def Crear_Archivo_Productos(productos):
             file.write(
                 f"{producto['ID_Producto']},{producto['Nombre']},{producto['Categoría']},{producto['Precio']},{producto['Stock']}\n"
             )
+
+def escribir(doc, line):
+    with open(doc,'a') as file:
+        if isinstance(line, Producto):
+            line_str = f"{line.id_producto},{line.nombre},{line.categoria},{line.precio},{line.stock}\n"
+        elif isinstance(line, Compra):
+            line_str = f"{line.id_compra},{line.id_producto},{line.id_proveedor},{line.fecha_compra},{line.cantidad}\n"
+        elif isinstance(line, Venta):
+            line_str = f"{line.id_venta},{line.id_producto},{line.id_cliente},{line.fecha_venta},{line.cantidad}\n"
+        elif isinstance(line, Proveedor):
+            line_str = f"{line.id},{line.nombre},{line.contacto},{line.direccion}\n"
+        file.write(line_str)
 
 def Crear_Archivo_Proveedores(proveedores):
     with open('proveedores.csv', 'w') as file:
@@ -72,12 +80,6 @@ def create_indexc():
             id = lines[i].split(',')[0]
             file.write(str(i) + ',' + id + '\n')
 
-def agregar_producto(productos):
-    with open("productos.csv", 'a') as file:
-        for producto in productos:
-            linea = f"{producto['ID_Producto']},{producto['Nombre']},{producto['Categoría']},{producto['Precio']},{producto['Stock']}\n"
-            file.write(linea)
-
 def mostrarp(id):
     with open("productos.csv", 'r') as file:
         lines = file.readlines()
@@ -135,12 +137,6 @@ def eliminarp(id):
                 else:
                     file.write(line)
 
-def agregar_proveedor(proveedores):
-    with open("proveedores.csv", 'a') as file:
-        for proveedor in proveedores:
-            linea = f"{proveedor['id']},{proveedor['Nombre']},{proveedor['Contacto']},{proveedor['Direccion']}\n"
-            file.write(linea)
-
 def mostrarp2(id):
     with open("proveedores.csv", 'r') as file:
         lines = file.readlines()
@@ -169,7 +165,7 @@ def actualizarp2(id,proveedores):
                 l=l+1
                 v =line.split(',')
                 if v[0] != 'id' and int(v[0]) == int(id):
-                    for i in productos:
+                    for i in proveedores:
                         file.write(str(v[0]) + ',' + i['Nombre'] + ',' + i['Contacto'] + ',' + i['Direccion'] + '\n')
                     k = 0
                 elif k != 0 and l==j:
@@ -200,43 +196,33 @@ def eliminarp2(id):
                 else:
                     file.write(line)
 
-def agregar_venta(ventas):
+def resta(cantidad):
     with open("productos.csv", 'r') as file:
         lines = file.readlines()
     with open("productos.csv", 'w') as file:
         for line in lines:   
             v =line.split(',')
             if v[0] == idp:
-                nuevo_stock =  int(ventas[0]['Cantidad']) - int(v[4])   
+                nuevo_stock =  int(v[4]) - int(cantidad)   
                 v[4]=str(nuevo_stock)
                 linea = f"{v[0]},{v[1]},{v[2]},{v[3]},{v[4]}\n"
             else:
                 linea = line 
             file.write(linea)
-        with open("ventas.csv", 'a') as file:
-            for venta in ventas:
-                file.write(
-                f"{venta['ID_Venta']},{venta['ID_Producto']},{venta['ID_Cliente']},{venta['Fecha_Venta']},{venta['Cantidad']}\n"
-                )
 
-def agregar_com(compras):
+def suma(cantidad):
     with open("productos.csv", 'r') as file:
         lines = file.readlines()
     with open("productos.csv", 'w') as file:
         for line in lines:   
             v =line.split(',')
             if v[0] == idp:
-                nuevo_stock =   int(v[4]) + int(compras[0]['Cantidad'])  
+                nuevo_stock =  int(v[4]) + int(cantidad)   
                 v[4]=str(nuevo_stock)
                 linea = f"{v[0]},{v[1]},{v[2]},{v[3]},{v[4]}\n"
             else:
                 linea = line 
             file.write(linea)
-        with open('compras.csv', 'a') as file:
-            for compra in compras:
-                file.write(
-                f"{compra['ID_Compra']},{compra['ID_Producto']},{compra['ID_Proveedor']},{compra['Fecha_Compra']},{compra['Cantidad']}\n" 
-                )
  
 def mostrarv(id):
     with open("ventas.csv", 'r') as file:
@@ -257,12 +243,13 @@ def actualizarv(id,venta):
         j=0
         for line in lines:
             j=j+1
+            v =line.split(',')
+        #if 
         with open('ventas.csv', 'w') as file:
            l=0
            k=1
            for line in lines:
                 l=l+1
-                v =line.split(',')
                 if v[0] != 'id' and int(v[0]) == int(id):
                     for i in venta:
                         file.write(str(v[0]) + ',' + i['Nombre'] + ',' + i['Contacto'] + ',' + i['Direccion'] + '\n')
@@ -286,8 +273,7 @@ def eliminarv(id):
                 l=l+1
                 v =line.split(',')
                 if v[0] != 'id' and int(v[0]) == int(id):
-                    for i in productos:
-                        file.write('')
+                    file.write('')
                     k = 0
                 elif k != 0 and l==j:
                     file.write(line)
@@ -295,38 +281,38 @@ def eliminarv(id):
                 else:
                     file.write(line)
 
-productos = [
+producto = [
     {"ID_Producto": 1, "Nombre": "Laptop", "Categoría": "Electrónica", "Precio": 2000000, "Stock": 50},
     {"ID_Producto": 2, "Nombre": "Zapatos", "Categoría": "Calzado", "Precio": 270000, "Stock": 10},
     {"ID_Producto": 3, "Nombre": "Camiseta", "Categoría": "Ropa", "Precio": 50000, "Stock": 30},
     {"ID_Producto": 4, "Nombre": "Cuadernos", "Categoría": "Útiles", "Precio": 5000, "Stock": 10}
 ]
 
-proveedores = [
+proveedore = [
     {"id":1, "Nombre":"TecnoSuministros S.A.", "Contacto":"contacto@tecnosuministros.com", "Direccion":"Calle 123 #45-67, Bogotá, Colombia"},
     {"id":2, "Nombre":"Calzados y Más", "Contacto":"info@calzadosymas.com", "Direccion":"Avenida Principal #98-76, Medellín, Colombia"},
     {"id":3, "Nombre":"Textiles Modernos", "Contacto":"ventas@textilesmodernos.com", "Direccion":"Carrera 56 #12-34, Cali, Colombia"},
     {"id":4, "Nombre":"Papelería Educativa", "Contacto":"servicio@papeleriaeducativa.com", "Direccion":"Calle 89 #10-11, Barranquilla, Colombia"}
 ]
 
-ventas = [
+venta = [
     {"ID_Venta": 1, "ID_Producto": 1, "ID_Cliente": 1, "Fecha_Venta": "2023-10-01", "Cantidad": "2"},
     {"ID_Venta": 2, "ID_Producto": 2, "ID_Cliente": 2, "Fecha_Venta": "2023-10-02", "Cantidad": "1"},
     {"ID_Venta": 3, "ID_Producto": 3, "ID_Cliente": 3, "Fecha_Venta": "2023-10-03", "Cantidad": "5"},
     {"ID_Venta": 4, "ID_Producto": 4, "ID_Cliente": 4, "Fecha_Venta": "2023-10-04", "Cantidad": "3"}
 ]
 
-compras = [
+compra = [
     {"ID_Compra": 1, "ID_Producto": 1, "ID_Proveedor": 1, "Fecha_Compra": "2023-09-25", "Cantidad": "10"},
     {"ID_Compra": 2, "ID_Producto": 2, "ID_Proveedor": 2, "Fecha_Compra": "2023-09-26", "Cantidad": "20"},
     {"ID_Compra": 3, "ID_Producto": 3, "ID_Proveedor": 3, "Fecha_Compra": "2023-09-27", "Cantidad": "15"},
     {"ID_Compra": 4, "ID_Producto": 4, "ID_Proveedor": 4, "Fecha_Compra": "2023-09-28", "Cantidad": "30"}
 ]
 
-Crear_Archivo_Productos(productos)
-Crear_Archivo_Proveedores(proveedores)
-Crear_Archivo_Ventas(ventas)
-Crear_Archivo_Compras(compras)
+Crear_Archivo_Productos(producto)
+Crear_Archivo_Proveedores(proveedore)
+Crear_Archivo_Ventas(venta)
+Crear_Archivo_Compras(compra)
 create_indexp()
 create_indexp2()
 create_indexv()
@@ -361,10 +347,8 @@ for i in range(0, 99):
             while precio == '':
                 precio=input('precion inválid0, digitelo nievamente: ')
             stock = input("Ingrese el stock del producto: ")
-            while stock == '':
-                stock = input("Stock inválido, digitelo nuevamente: ")
-            productos = [{"ID_Producto":k,"Nombre":nombre ,"Categoría":categoria, "Precio":precio, "Stock":stock}]
-            agregar_producto(productos)
+            producto = Producto(k, nombre , categoria, precio, stock)
+            escribir('productos.csv',producto)
             print(' \nAgregado con exito \n')
         elif co == '2':
             print('¿Que producto quiere buscar?')
@@ -433,8 +417,8 @@ for i in range(0, 99):
             nombre = input("Ingrese el nombre del proveedor: ")
             contacto = input("Ingrese el contacto del proveedor: ")
             direccion = input("Ingrese la direccion del proveedor: ")
-            proveedor = [{"id":c,"Nombre":nombre ,"Contacto":contacto, "Direccion":direccion}]
-            agregar_proveedor(proveedor)
+            nuevopro = Proveedor(c,nombre ,contacto, direccion)
+            escribir('proveedores.csv',nuevopro)
             print(' \nAgregado con exito \n')
 
         elif co == '2':
@@ -504,8 +488,9 @@ for i in range(0, 99):
             idc = input("Ingrese el id del cliente: ")
             fecha = input("Ingrese la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
-            venta = [{"ID_Venta":f,"ID_Producto":idp ,"ID_Cliente":idc, "Fecha_Venta":fecha, "Cantidad":cantidad}]
-            agregar_venta(venta)
+            venta = Venta(f, idp, idc, fecha, cantidad)
+            escribir('ventas.csv',venta)
+            resta(cantidad)
             print(' \nAgregado con exito \n')
 
         elif co == '2':
@@ -574,8 +559,9 @@ for i in range(0, 99):
             idc = input("Ingrese el id del cliente: ")
             fecha = input("Ingrese la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
-            compras = [{"ID_Compra":j,"ID_Producto":idp ,"ID_Proveedor":idc, "Fecha_Compra":fecha, "Cantidad":cantidad}]
-            agregar_com(compras)
+            compras = Compra(j, idp , idc, fecha, cantidad)
+            escribir('compras.csv',compras)
+            suma(cantidad)
             print(' \nAgregado con exito \n')
 
     elif condicion == '5':

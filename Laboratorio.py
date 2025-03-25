@@ -207,6 +207,25 @@ def agregar_venta(ventas):
                 f"{venta['ID_Venta']},{venta['ID_Producto']},{venta['ID_Cliente']},{venta['Fecha_Venta']},{venta['Cantidad']}\n"
             )
 
+def agregar_com(compras):
+    with open("productos.csv", 'r') as file:
+        lines = file.readlines()
+    with open("productos.csv", 'w') as file:
+        for line in lines:   
+            v =line.split(',')
+            if v[0] == idp:
+                nuevo_stock =   int(v[4]) + int(compras[0]['Cantidad'])  
+                v[4]=str(nuevo_stock)
+                linea = f"{v[0]},{v[1]},{v[2]},{v[3]},{v[4]}\n"
+            else:
+                linea = line 
+            file.write(linea)
+        with open('compras.csv', 'a') as file:
+            for compra in compras:
+                file.write(
+                f"{compra['ID_Compra']},{compra['ID_Producto']},{compra['ID_Proveedor']},{compra['Fecha_Compra']},{compra['Cantidad']}\n" 
+                )
+ 
 def mostrarv(id):
     with open("ventas.csv", 'r') as file:
         lines = file.readlines()
@@ -303,6 +322,7 @@ c=4
 k=4
 f=4
 y=4
+j=4
 for i in range(0, 99):
     create_indexp()
     create_indexp2()
@@ -527,6 +547,15 @@ for i in range(0, 99):
 
     elif condicion == '4':
         co = input('\n1. Registrar Compra\n2. Buscar Compra\n3. Actualizar Compra\n4. Eliminar Compra\n5. Volver al Menú Principal\n')
+        if co == '1':
+            j=j+1
+            idp = input("Ingrese el id del producto: ")
+            idc = input("Ingrese el id del cliente: ")
+            fecha = input("Ingrese la fecha: ")
+            cantidad = input('Ingrese la cantidad de venta: ')
+            compras = [{"ID_Compra":j,"ID_Producto":idp ,"ID_Proveedor":idc, "Fecha_Compra":fecha, "Cantidad":cantidad}]
+            agregar_com(compras)
+            print(' \nAgregado con exito \n')
 
     elif condicion == '5':
         co = input('\n1. Productos con menor stock\n2. Proveedores más frecuentes\n3. Ventas por período de tiempo\n4. Productos más vendidos\n')

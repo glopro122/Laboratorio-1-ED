@@ -196,13 +196,13 @@ def eliminarp2(id):
                 else:
                     file.write(line)
 
-def resta(cantidad):
+def resta(cantidad,id):
     with open("productos.csv", 'r') as file:
         lines = file.readlines()
     with open("productos.csv", 'w') as file:
         for line in lines:   
             v =line.split(',')
-            if v[0] == idp:
+            if v[0] == id:
                 nuevo_stock =  int(v[4]) - int(cantidad)   
                 v[4]=str(nuevo_stock)
                 linea = f"{v[0]},{v[1]},{v[2]},{v[3]},{v[4]}\n"
@@ -210,13 +210,13 @@ def resta(cantidad):
                 linea = line 
             file.write(linea)
 
-def suma(cantidad):
+def suma(cantidad,id):
     with open("productos.csv", 'r') as file:
         lines = file.readlines()
     with open("productos.csv", 'w') as file:
         for line in lines:   
             v =line.split(',')
-            if v[0] == idp:
+            if v[0] == id:
                 nuevo_stock =  int(v[4]) + int(cantidad)   
                 v[4]=str(nuevo_stock)
                 linea = f"{v[0]},{v[1]},{v[2]},{v[3]},{v[4]}\n"
@@ -243,16 +243,19 @@ def actualizarv(id,venta):
         j=0
         for line in lines:
             j=j+1
-            v =line.split(',')
-        #if 
         with open('ventas.csv', 'w') as file:
            l=0
            k=1
            for line in lines:
+                v = line.strip().split(',')
                 l=l+1
-                if v[0] != 'id' and int(v[0]) == int(id):
+                if v[0] != 'ID_Venta' and int(v[0]) == int(id):
                     for i in venta:
-                        file.write(str(v[0]) + ',' + i['Nombre'] + ',' + i['Contacto'] + ',' + i['Direccion'] + '\n')
+                        file.write(str(v[0]) + ',' + i['ID_Producto'] + ',' + i['ID_Cliente'] + ',' + i['Fecha_Venta'] + ',' + i['Cantidad'] + '\n')
+                        if int(v[4]) < int(cantidad):
+                            resta(int(cantidad) - int(v[4]))
+                        elif int(v[4]) > int(cantidad):
+                            suma(int(v[4]) - int(cantidad),v[0])
                     k = 0
                 elif k != 0 and l==j:
                     file.write(line)
@@ -261,19 +264,20 @@ def actualizarv(id,venta):
                     file.write(line)
 
 def eliminarv(id):
-    with open('proveedores.csv', 'r') as file:
+    with open('ventas.csv', 'r') as file:
         lines = file.readlines()
         j=0
         for line in lines:
             j=j+1
-        with open('proveedores.csv', 'w') as file:
+        with open('ventas.csv', 'w') as file:
            l=0
            k=1
            for line in lines:
                 l=l+1
                 v =line.split(',')
-                if v[0] != 'id' and int(v[0]) == int(id):
+                if v[0] != 'ID_Venta' and int(v[0]) == int(id):
                     file.write('')
+                    suma(int(v[4]),v[1])
                     k = 0
                 elif k != 0 and l==j:
                     file.write(line)
@@ -511,7 +515,7 @@ for i in range(0, 99):
             cantidad = input('Ingrese la cantidad de venta: ')
             venta = Venta(f, idp, idc, fecha, cantidad)
             escribir('ventas.csv',venta)
-            resta(cantidad)
+            resta(cantidad,idp)
             print(' \nAgregado con exito \n')
 
         elif co == '2':
@@ -546,11 +550,12 @@ for i in range(0, 99):
                     print('Por favor escriba un numero')
                     print('¿Cual es su id?')
                     ids = input()
-            nombre = input("Ingrese el nombre del proveedor: ")
-            contacto = input("Ingrese el contacto del proveedor: ")
-            direccion = input("Ingrese la direccion del proveedor: ")
-            productos = [{"Nombre":nombre ,"Contacto":contacto, "Direccion":direccion}]
-            actualizarp2(ids,productos)
+            idp = input("Ingrese el id del producto ")
+            idc = input("Ingrese el id del cliente: ")
+            fecha = input("Ingrese la fecha: ")
+            cantidad = input('Ingrese la cantidad de venta: ')
+            ventas = [{"ID_Producto":idp ,"ID_Cliente":idc, "Fecha_Venta":fecha, "Cantidad":cantidad}]
+            actualizarv(ids,ventas)
 
         elif co == '4':
             print('¿Que venta quiere eliminar?')
@@ -567,7 +572,7 @@ for i in range(0, 99):
                     print('Por favor escriba un numero')
                     print('¿Cual es su id?')
                     ids = input()
-            eliminarp2(ids)
+            eliminarv(ids)
 
         elif co == '5':
             condicion = 0
@@ -582,7 +587,7 @@ for i in range(0, 99):
             cantidad = input('Ingrese la cantidad de venta: ')
             compras = Compra(j, idp , idc, fecha, cantidad)
             escribir('compras.csv',compras)
-            suma(cantidad)
+            suma(cantidad,idp)
             print(' \nAgregado con exito \n')
 
     elif condicion == '5':

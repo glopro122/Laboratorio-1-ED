@@ -90,8 +90,6 @@ def mostrarp(id):
             v =line.split(',')
             if v[0] != 'ID_Producto' and int(v[0]) == int(id):
                 print('La id del pedido es:'+v[0]+'\nEl nombre del pedido es: '+ v[1] +'\nLa categoria del pedido es: '+v[2]+'\nEl precio del pedido es: '+v[3]+'\nEl stock del pedido es: '+v[4])
-            elif k==j:
-                print('El pedido no existe')
 
 def actualizarp(id,productos):
     with open('productos.csv', 'r') as file:
@@ -172,7 +170,7 @@ def actualizarp2(id,proveedores):
                 v =line.split(',')
                 if v[0] != 'id' and int(v[0]) == int(id):
                     for i in productos:
-                        file.write(str(i['Nombre']) + ',' + i['Contacto'] + ',' + i['Direccion'] + '\n')
+                        file.write(str(v[0]) + ',' + i['Nombre'] + ',' + i['Contacto'] + ',' + i['Direccion'] + '\n')
                     k = 0
                 elif k != 0 and l==j:
                     file.write(line)
@@ -181,6 +179,72 @@ def actualizarp2(id,proveedores):
                     file.write(line)
 
 def eliminarp2(id):
+    with open('proveedores.csv', 'r') as file:
+        lines = file.readlines()
+        j=0
+        for line in lines:
+            j=j+1
+        with open('proveedores.csv', 'w') as file:
+           l=0
+           k=1
+           for line in lines:
+                l=l+1
+                v =line.split(',')
+                if v[0] != 'id' and int(v[0]) == int(id):
+                    for i in productos:
+                        file.write('')
+                    k = 0
+                elif k != 0 and l==j:
+                    file.write(line)
+                    print('No se encontro el proveedor')
+                else:
+                    file.write(line)
+
+def agregar_venta(ventas):
+    with open("ventas.csv", 'a') as file:
+        for venta in ventas:
+            file.write(
+                f"{venta['ID_Venta']},{venta['ID_Producto']},{venta['ID_Cliente']},{venta['Fecha_Venta']},{venta['Cantidad']}\n"
+            )
+
+def mostrarv(id):
+    with open("proveedores.csv", 'r') as file:
+        lines = file.readlines()
+        j=0
+        k=0
+        for line in lines:
+            j=j+1
+        for line in lines:
+            k=k+1
+            v =line.split(',')
+            if v[0] != 'id' and int(v[0]) == int(id):
+                print('La id del proveedor es: '+v[0]+'\nEl nombre del proveedor es: '+ v[1] +'\nEl contacto del proveedor es: '+v[2]+'\nLa direccion del proveedor es: '+v[3]+v[4]+v[5])
+            elif k==j:
+                print('El pedido no existe')
+
+def actualizarv(id,proveedores):
+    with open('proveedores.csv', 'r') as file:
+        lines = file.readlines()
+        j=0
+        for line in lines:
+            j=j+1
+        with open('proveedores.csv', 'w') as file:
+           l=0
+           k=1
+           for line in lines:
+                l=l+1
+                v =line.split(',')
+                if v[0] != 'id' and int(v[0]) == int(id):
+                    for i in productos:
+                        file.write(str(v[0]) + ',' + i['Nombre'] + ',' + i['Contacto'] + ',' + i['Direccion'] + '\n')
+                    k = 0
+                elif k != 0 and l==j:
+                    file.write(line)
+                    print('No se encontro el producto')
+                else:
+                    file.write(line)
+
+def eliminarv(id):
     with open('proveedores.csv', 'r') as file:
         lines = file.readlines()
         j=0
@@ -398,11 +462,12 @@ for i in range(0, 99):
 
         if co == '1':
             f=f+1
-            nombre = input("Ingrese el nombre del proveedor: ")
-            contacto = input("Ingrese el contacto del proveedor: ")
-            direccion = input("Ingrese la direccion del proveedor: ")
-            proveedor = [{"id":c,"Nombre":nombre ,"Contacto":contacto, "Direccion":direccion}]
-            agregar_proveedor(proveedor)
+            idp = input("Ingrese el id del producto ")
+            idc = input("Ingrese el id del cliente: ")
+            fecha = input("Ingrese la fecha: ")
+            cantidad = input('Ingrese la cantidad de venta: ')
+            proveedor = [{"ID_Venta":c,"ID_Producto":idp ,"ID_Cliente":idc, "Fecha_Venta":fecha, "Cantidad":cantidad}]
+            agregar_venta(proveedor)
             print(' \nAgregado con exito \n')
 
         elif co == '2':
@@ -410,11 +475,11 @@ for i in range(0, 99):
             ids = input()
             while h:
                 try:
-                    while ids == '' or int(ids) >c:
+                    while ids == '' or int(ids) >f:
                         print('Ese numero no corresponde a ninguna id registrada')
                         print('¿Cual es su id?')
                         ids = input()
-                    if int(ids) <= c:
+                    if int(ids) <= f:
                         h = False
                 except ValueError:
                     print('Por favor escriba un numero')
@@ -431,7 +496,7 @@ for i in range(0, 99):
                         print('Ese numero no corresponde a ninguna id registrada')
                         print('¿Cual es su id?')
                         ids = input()
-                    if int(ids) <= c:
+                    if int(ids) <= f:
                         h = False
                 except ValueError:
                     print('Por favor escriba un numero')
@@ -448,11 +513,11 @@ for i in range(0, 99):
             ids = input()
             while h:
                 try:
-                    while ids == '' or int(ids) >c:
+                    while ids == '' or int(ids) >f:
                         print('Ese numero no corresponde a ninguna id registrada')
                         print('¿Cual es el id?')
                         ids = input()
-                    if int(ids) <= c:
+                    if int(ids) <= f:
                         h = False
                 except ValueError:
                     print('Por favor escriba un numero')

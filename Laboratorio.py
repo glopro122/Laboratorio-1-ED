@@ -357,7 +357,7 @@ for i in range(0, 99):
                 try:
                     while ids == '' or int(ids) >k:
                         print('Ese numero no corresponde a ninguna id registrada')
-                        print('¿Cual es la id?')
+                        print('Registre nuevamente su id: ')
                         ids = input()
                     if int(ids) <= k:
                         h = False
@@ -383,9 +383,19 @@ for i in range(0, 99):
                     print('¿Cual es su id?')
                     ids = input()
             nombre = input("Ingrese el nombre del producto: ")
+            while nombre == '':
+                nombre = input("Ingrese nuevamente el nombre del producto: ")
             categoria = input("Ingrese la categoría del producto: ")
+            while categpria == '':
+                categoria = input("Ingrese nuevamente la categoría del producto: ")
             precio = input("Ingrese el precio del producto: ")
+            while precio == '' or precio < 0:
+                precio = input("Ingrese nuevamente el precio del producto: \n"
+                "Recuerde que no se admiten valorse negativos ")
             stock = input("Ingrese el stock del producto: ")
+            while stock == '' or stock <0:
+                stock = input("Ingrese nuevamente el stock del producto, \n"
+                "Recuerde que no se admiten valores negativos: ")
             productos = [{"Nombre":nombre ,"Categoría":categoria, "Precio":precio, "Stock":stock}]
             actualizarp(ids,productos)
 
@@ -415,8 +425,15 @@ for i in range(0, 99):
         if co == '1':
             c=c+1
             nombre = input("Ingrese el nombre del proveedor: ")
+            while nombre == '':
+                nombre = input("Ingrese nuevamente el nombre del proveedor: ")
             contacto = input("Ingrese el contacto del proveedor: ")
+            while contacto == '' or contacto<0:
+                contacto = input("Ingrese nuevamente el contacto del proveedor, \n"
+                "Recuerde que solo se admiten valores: ")
             direccion = input("Ingrese la direccion del proveedor: ")
+            while direccion == '':
+                direccion = input("Ingrese la direccion del proveedor: \n")
             nuevopro = Proveedor(c,nombre ,contacto, direccion)
             escribir('proveedores.csv',nuevopro)
             print(' \nAgregado con exito \n')
@@ -427,15 +444,13 @@ for i in range(0, 99):
             while h:
                 try:
                     while ids == '' or int(ids) >c:
-                        print('Ese numero no corresponde a ninguna id registrada')
-                        print('¿Cual es su id?')
-                        ids = input()
+                        ids=input('Ese numero no corresponde a ninguna id registrada\n'
+                        'digite nuevamente su id: ')
                     if int(ids) <= c:
                         h = False
                 except ValueError:
-                    print('Por favor escriba un numero')
-                    print('¿Cual es su id?')
-                    ids = input()
+                    ids=input('Ese numero no corresponde a ninguna id registrada\n'
+                    'digite nuevamente su id: ')
             mostrarp2(ids)
 
         elif co == '3':
@@ -454,8 +469,14 @@ for i in range(0, 99):
                     print('¿Cual es su id?')
                     ids = input()
             nombre = input("Ingrese el nombre del proveedor: ")
+            while nombre == '':
+                nombre = input("Ingrese nuevamente el nombre del proveedor: ")
             contacto = input("Ingrese el contacto del proveedor: ")
+            while contacto == '':
+                contacto = input("Ingrese nuevamente el contacto del proveedor: ")
             direccion = input("Ingrese la direccion del proveedor: ")
+            while direccion == '':
+                direccion = input("Ingrese nuevamente la direccion del proveedor: ")
             productos = [{"Nombre":nombre ,"Contacto":contacto, "Direccion":direccion}]
             actualizarp2(ids,productos)
 

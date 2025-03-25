@@ -27,7 +27,7 @@ class Producto:
         self.categoria = categoria
         self.precio = precio
         self.stock = stock
-
+        
     def __repr__(self):
         return f"Producto({self.id_producto}, {self.nombre}, {self.categoria}, {self.precio}, {self.stock})"
 

@@ -366,6 +366,7 @@ for i in range(0, 99):
                     print('¿Cual es la id?')
                     ids = input()
             mostrarp(ids)
+
         elif co == '3':
             print('¿Que producto quiere actualizar?')
             ids = input()

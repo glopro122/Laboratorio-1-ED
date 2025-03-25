@@ -214,7 +214,7 @@ def agregar_com(compras):
         for line in lines:   
             v =line.split(',')
             if v[0] == idp:
-                nuevo_stock =   int(v[4]) - int(compras[0]['Cantidad'])  
+                nuevo_stock =   int(v[4]) + int(compras[0]['Cantidad'])  
                 v[4]=str(nuevo_stock)
                 linea = f"{v[0]},{v[1]},{v[2]},{v[3]},{v[4]}\n"
             else:

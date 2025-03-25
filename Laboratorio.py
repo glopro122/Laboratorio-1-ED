@@ -208,13 +208,24 @@ def agregar_venta(ventas):
             )
 
 def agregar_com(compras):
-     with open("compras.csv", 'a') as file:
-        for venta in compras:
-            file.write(
-            f"{compra['ID_Compra']},{compra['ID_Producto']},{compra['ID_Proveedor']},{compra['Fecha_Compra']},{compra['Cantidad']}\n" 
-            )
-            
-
+    with open("productos.csv", 'r') as file:
+        lines = file.readlines()
+    with open("productos.csv", 'w') as file:
+        for line in lines:   
+            v =line.split(',')
+            if v[0] == idp:
+                nuevo_stock =   int(v[4]) - int(compras[0]['Cantidad'])  
+                v[4]=str(nuevo_stock)
+                linea = f"{v[0]},{v[1]},{v[2]},{v[3]},{v[4]}\n"
+            else:
+                linea = line 
+            file.write(linea)
+        with open('compras.csv', 'a') as file:
+            for compra in compras:
+                file.write(
+                f"{compra['ID_Compra']},{compra['ID_Producto']},{compra['ID_Proveedor']},{compra['Fecha_Compra']},{compra['Cantidad']}\n" 
+                )
+ 
 def mostrarv(id):
     with open("ventas.csv", 'r') as file:
         lines = file.readlines()
@@ -543,7 +554,7 @@ for i in range(0, 99):
             idc = input("Ingrese el id del cliente: ")
             fecha = input("Ingrese la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
-            compras = [{"ID_Compra":j,"ID_Producto":idp ,"ID_Proveedor":idc, "Fecha_Venta":fecha, "Cantidad":cantidad}]
+            compras = [{"ID_Compra":j,"ID_Producto":idp ,"ID_Proveedor":idc, "Fecha_Compra":fecha, "Cantidad":cantidad}]
             agregar_com(compras)
             print(' \nAgregado con exito \n')
 

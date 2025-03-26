@@ -435,15 +435,17 @@ for i in range(0, 99):
             while categoria =='':
                 categpria=input ('Catagoria inválido, Digitelo nuevamente')
             precio = input("Ingrese el precio del producto: ")
-            while precio == '':
+            while precio == '' or int(precio)<0:
                 precio=input('precion inválid0, digitelo nievamente: ')
             stock = input("Ingrese el stock del producto: ")
+            while stock == '' or int(stock)<0:
+                stock = input("Ingrese nuevamente el stock del producto\n "
+                "Recuerde que no se admiten valores negativos: ")
             producto = Producto(k, nombre , categoria, precio, stock)
             escribir('productos.csv',producto)
             print(' \nAgregado con exito \n')
         elif co == '2':
-            print('¿Que producto quiere buscar?')
-            ids = input()
+            ids = input('¿Que producto quiere buscar?')
             while h:
                 try:
                     while ids == '' or int(ids) >k:
@@ -452,48 +454,49 @@ for i in range(0, 99):
                     if int(ids) <= k:
                         h = False
                 except ValueError:
-                    print('Por favor escriba un numero')
-                    print('¿Cual es la id?')
-                    ids = input()
+                    ids=input('Por favor escriba un numero\n'
+                    'Digite su id')
             mostrarp(ids)
 
         elif co == '3':
-            print('¿Que producto quiere actualizar?')
-            ids = input()
+            ids = input('¿Que producto quiere actualizar?')
             while h:
                 try:
                     while ids == '' or int(ids) >k:
-                        print('Ese numero no corresponde a ninguna id registrada')
-                        print('¿Cual es su id?')
-                        ids = input()
+                        ids=input('Ese numero no corresponde a ninguna id registrada\n'
+                        'Digite nuevamente su id: ')
                     if int(ids) <= k:
                         h = False
                 except ValueError:
-                    print('Por favor escriba un numero')
-                    print('¿Cual es su id?')
-                    ids = input()
+                    ids=input('Por favor escriba un numero\n'
+                    'Digite su id')
             nombre = input("Ingrese el nombre del producto: ")
+            while nombre == '':
+                nombre = input("Ingrese nuevamente el nombre del producto: ")
             categoria = input("Ingrese la categoría del producto: ")
+            while categoria == '':
+                categoria = input("Ingrese nuevamente la categoría del producto: ")
             precio = input("Ingrese el precio del producto: ")
+            while precio == '' or int(precio)<0:
+                precio = input("Ingrese nuevamente el precio del producto: ")
             stock = input("Ingrese el stock del producto: ")
+            while stock == '' or int(stock)<0:
+                stock = input("Ingrese nuevamente el stock del producto: ") 
             productos = [{"Nombre":nombre ,"Categoría":categoria, "Precio":precio, "Stock":stock}]
             actualizarp(ids,productos)
 
         elif co == '4':
-            print('¿Que producto quiere eliminar?')
-            ids = input()
+            ids = input('¿Que producto quiere eliminar?')
             while h:
                 try:
                     while ids == '' or int(ids) >k:
-                        print('Ese numero no corresponde a ninguna id registrada')
-                        print('¿Cual es el id?')
-                        ids = input()
+                        ids=input('Ese numero no corresponde a ninguna id registrada\n'
+                        'Digite nuevamente su id: ')
                     if int(ids) <= k:
                         h = False
                 except ValueError:
-                    print('Por favor escriba un numero')
-                    print('¿Cual es su id?')
-                    ids = input()
+                    ids=input('Por favor escriba un numero\n'
+                    'Digite su id')
             eliminarp(ids)
 
         elif co == '5':
@@ -505,8 +508,14 @@ for i in range(0, 99):
         if co == '1':
             c=c+1
             nombre = input("Ingrese el nombre del proveedor: ")
+            while nombre == '':
+                nombre = input("Ingrese nuevamente el nombre del proveedor: ")
             contacto = input("Ingrese el contacto del proveedor: ")
+            while contacto == '':
+                contacto = input("Ingrese nuevamente el contacto del proveedor: ")
             direccion = input("Ingrese la direccion del proveedor: ")
+            while direccion == '':
+                direccion = input("Ingrese nuevamente la direccion del proveedor: ")
             nuevopro = Proveedor(c,nombre ,contacto, direccion)
             escribir('proveedores.csv',nuevopro)
             print(' \nAgregado con exito \n')
@@ -517,15 +526,13 @@ for i in range(0, 99):
             while h:
                 try:
                     while ids == '' or int(ids) >c:
-                        print('Ese numero no corresponde a ninguna id registrada')
-                        print('¿Cual es su id?')
-                        ids = input()
+                        ids=input('Ese numero no corresponde a ninguna id registrada\n'
+                        'Digite nuevamente su id: ')
                     if int(ids) <= c:
                         h = False
                 except ValueError:
-                    print('Por favor escriba un numero')
-                    print('¿Cual es su id?')
-                    ids = input()
+                    ids=input('Por favor escriba un numero\n'
+                    'Digite su id')
             mostrarp2(ids)
 
         elif co == '3':
@@ -534,18 +541,22 @@ for i in range(0, 99):
             while h:
                 try:
                     while ids == '' or int(ids) >c:
-                        print('Ese numero no corresponde a ninguna id registrada')
-                        print('¿Cual es su id?')
-                        ids = input()
+                        ids=input('Ese numero no corresponde a ninguna id registrada\n'
+                        'Digite nuevamente su id: ')
                     if int(ids) <= c:
                         h = False
                 except ValueError:
-                    print('Por favor escriba un numero')
-                    print('¿Cual es su id?')
-                    ids = input()
+                    ids=input('Por favor escriba un numero\n'
+                    'Digite su id')
             nombre = input("Ingrese el nombre del proveedor: ")
+            while nombre == '':
+                nombre = input("Ingrese nuevamente el nombre del proveedor: ")
             contacto = input("Ingrese el contacto del proveedor: ")
+            while contacto == '':
+                contacto = input("Ingrese nuevamente el contacto del proveedor: ")
             direccion = input("Ingrese la direccion del proveedor: ")
+            while direccion == '':
+                direccion = input("Ingrese nuevamente la direccion del proveedor: ")
             productos = [{"Nombre":nombre ,"Contacto":contacto, "Direccion":direccion}]
             actualizarp2(ids,productos)
 
@@ -555,15 +566,13 @@ for i in range(0, 99):
             while h:
                 try:
                     while ids == '' or int(ids) >c:
-                        print('Ese numero no corresponde a ninguna id registrada')
-                        print('¿Cual es el id?')
-                        ids = input()
+                        ids=input('Ese numero no corresponde a ninguna id registrada\n'
+                        'Digite nuevamente su id: ')
                     if int(ids) <= c:
                         h = False
                 except ValueError:
-                    print('Por favor escriba un numero')
-                    print('¿Cual es su id?')
-                    ids = input()
+                    ids=input('Por favor escriba un numero\n'
+                    'Digite su id')
             eliminarp2(ids)
 
         elif co == '5':
@@ -574,29 +583,32 @@ for i in range(0, 99):
         if co == '1':
             f=f+1
             idp = input("Ingrese el id del producto ")
+            while idp == '' or int(idp)<0:
+                idp = input("Ingrese nuevamente el id del producto ")
             idc = input("Ingrese el id del cliente: ")
+            while idc == '' or int(idc)<0:
+                idc = input("Ingrese nuevamente el id del cliente: ")
             fecha = input("Ingrese la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
+            while cantidad == '' or cantidad < 0:
+                cantidad = input('Ingrese nuevamente la cantidad de venta: ')
             venta = Venta(f, idp, idc, fecha, cantidad)
             escribir('ventas.csv',venta)
             resta(cantidad,idp)
             print(' \nAgregado con exito \n')
 
         elif co == '2':
-            print('¿Que venta quiere buscar?')
-            ids = input()
+            ids = input('¿Que venta quiere buscar?')
             while h:
                 try:
                     while ids == '' or int(ids) >f:
-                        print('Ese numero no corresponde a ninguna id registrada')
-                        print('¿Cual es su id?')
-                        ids = input()
+                        ids=input('Ese numero no corresponde a ninguna id registrada\n'
+                        'Digite nuevamente su id: ')
                     if int(ids) <= f:
                         h = False
                 except ValueError:
-                    print('Por favor escriba un numero')
-                    print('¿Cual es su id?')
-                    ids = input()
+                    ids=input('Por favor escriba un numero\n'
+                    'Digite su id')
             mostrarv(ids)
 
         elif co == '3':
@@ -605,19 +617,23 @@ for i in range(0, 99):
             while h:
                 try:
                     while ids == '' or int(ids) >f:
-                        print('Ese numero no corresponde a ninguna id registrada')
-                        print('¿Cual es su id?')
-                        ids = input()
+                        ids=input('Ese numero no corresponde a ninguna id registrada\n'
+                        'Digite nuevamente su id: ')
                     if int(ids) <= f:
                         h = False
                 except ValueError:
-                    print('Por favor escriba un numero')
-                    print('¿Cual es su id?')
-                    ids = input()
+                    ids=input('Por favor escriba un numero\n'
+                    'Digite su id')
             idp = input("Ingrese el id del producto ")
+            while idp == '' or int(idp)<0:
+                idp = input("Ingrese nuevamente el id del producto ")
             idc = input("Ingrese el id del cliente: ")
+            while idc == '' or int(idc)<0:
+                idc = input("Ingrese nuevamente el id del cliente: ")
             fecha = input("Ingrese la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
+            while cantidad == '' or cantidad < 0:
+                cantidad = input('Ingrese nuevamente la cantidad de venta: ')
             ventas = [{"ID_Producto":idp ,"ID_Cliente":idc, "Fecha_Venta":fecha, "Cantidad":cantidad}]
             actualizarv(ids,ventas)
 
@@ -627,15 +643,13 @@ for i in range(0, 99):
             while h:
                 try:
                     while ids == '' or int(ids) >f:
-                        print('Ese numero no corresponde a ninguna id registrada')
-                        print('¿Cual es el id?')
-                        ids = input()
+                        ids=input('Ese numero no corresponde a ninguna id registrada\n'
+                        'Digite nuevamente su id: ')
                     if int(ids) <= f:
                         h = False
                 except ValueError:
-                    print('Por favor escriba un numero')
-                    print('¿Cual es su id?')
-                    ids = input()
+                    ids=input('Por favor escriba un numero\n'
+                    'Digite su id')
             eliminarv(ids)
 
         elif co == '5':
@@ -645,10 +659,16 @@ for i in range(0, 99):
         co = input('\n1. Registrar Compra\n2. Buscar Compra\n3. Actualizar Compra\n4. Eliminar Compra\n5. Volver al Menú Principal\n')
         if co == '1':
             j=j+1
-            idp = input("Ingrese el id del producto: ")
+            idp = input("Ingrese el id del producto ")
+            while idp == '' or int(idp)<0:
+                idp = input("Ingrese nuevamente el id del producto ")
             idc = input("Ingrese el id del cliente: ")
+            while idc == '' or int(idc)<0:
+                idc = input("Ingrese nuevamente el id del cliente: ")
             fecha = input("Ingrese la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
+            while cantidad == '' or cantidad < 0:
+                cantidad = input('Ingrese nuevamente la cantidad de venta: ')
             compras = Compra(j, idp , idc, fecha, cantidad)
             escribir('compras.csv',compras)
             suma(cantidad,idp)

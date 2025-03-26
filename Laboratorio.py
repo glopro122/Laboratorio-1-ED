@@ -285,6 +285,38 @@ def eliminarv(id):
                 else:
                     file.write(line)
 
+def productos_menor_stock():
+    with open("productos.csv", 'r') as file:
+        lines = file.readlines()
+        productos = []
+        for line in lines[1:]:
+            v = line.strip().split(',')
+            productos.append((v[1], int(v[4])))
+        productos.sort(key=lambda x: x[1])
+        for producto in productos[:5]:
+            print(f"Producto: {producto[0]}, Stock: {producto[1]}")
+
+def proveedores_mas_frecuentes():
+    proveedores = {}
+    with open("compras.csv", 'r') as file:
+        lines = file.readlines()
+        for line in lines[1:]:  # Saltar la primera línea que es el encabezado
+            v = line.strip().split(',')
+            proveedor_id = v[2]
+            if proveedor_id in proveedores:
+                proveedores[proveedor_id] += 1
+            else:
+                proveedores[proveedor_id] = 1
+    proveedores = sorted(proveedores.items(), key=lambda x: x[1], reverse=True)
+    
+    with open("proveedores.csv", 'r') as file:
+        proveedores_lines = file.readlines()
+        proveedores_dict = {line.split(',')[0]: line.split(',')[1] for line in proveedores_lines[1:]}
+    
+    for proveedor in proveedores[:5]:
+        proveedor_nombre = proveedores_dict.get(proveedor[0], "Desconocido")
+        print(f"Proveedor: {proveedor_nombre}, Frecuencia: {proveedor[1]}")
+
 producto = [
     {"ID_Producto": 1, "Nombre": "Laptop", "Categoría": "Electrónica", "Precio": 2000000, "Stock": 50},
     {"ID_Producto": 2, "Nombre": "Zapatos", "Categoría": "Calzado", "Precio": 270000, "Stock": 10},
@@ -571,7 +603,11 @@ for i in range(0, 99):
 
     elif condicion == '5':
         co = input('\n1. Productos con menor stock\n2. Proveedores más frecuentes\n3. Ventas por período de tiempo\n4. Productos más vendidos\n')
+        if co == '1':
+            productos_menor_stock()
 
+        elif co == '2':
+            proveedores_mas_frecuentes()
     elif condicion == '6':
         print('\nSaliendo del sistema...')
         break

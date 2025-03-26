@@ -410,6 +410,42 @@ def actualizarc(ids,compras):
                     print('No se encontro el producto')
                 else:
                     file.write(line)
+
+def validarFecha(fecha):
+    try:
+        fecha_i = fecha.split('-')
+        año = int(fecha_i[0])
+        mes = int(fecha_i[1])
+        dia = int(fecha_i[2])
+
+        if (año < 2000 or año > 2026) or (mes < 1 or mes > 12):
+            return False
+
+        dias_en_mes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+        if (año % 4 == 0 and año % 100 != 0) or (año % 400 == 0):
+            dias_en_mes[1] = 29
+
+        if (mes == 1 and dia > 31) or\
+        (mes == 2 and dia > dias_en_mes[1]) or\
+        (mes == 3 and dia > 31) or\
+        (mes == 4 and dia > 30) or\
+        (mes == 5 and dia > 31) or\
+        (mes == 6 and dia > 30) or\
+        (mes == 7 and dia > 31) or\
+        (mes == 8 and dia > 31) or\
+        (mes == 9 and dia > 30) or\
+        (mes == 10 and dia > 31) or\
+        (mes == 11 and dia > 30) or\
+        (mes == 12 and dia > 31):
+            return False
+
+        return True
+    
+    except:
+        print('Digite en el formato establecido, por favor')
+        return False
+
 def eliminarc(id):
     with open('compras.csv', 'r') as file:
         lines = file.readlines()
@@ -478,6 +514,7 @@ for i in range(0, 99):
     create_indexv()
     create_indexc()
     h = True
+    idp = ''
     condicion= input('¿Que desea hacer? \n1. Gestión de Productos \n2. Gestión de Proveedores \n3. Gestión de Ventas \n4. Gestión de Compras \n5. Reportes \n6. Salir\n')
     while int(condicion)< 1 or int(condicion) > 6:
         print ('Opcion Invalida, digite nuevamente')
@@ -508,8 +545,8 @@ for i in range(0, 99):
             while h:
                 try:
                     while ids == '' or int(ids) >k:
-                        ids = input('Por favor escriba un numero \n'
-                        'Digite nuevamete su id')
+                        ids = input('Id no valida \n'
+                        'Digite nuevamete su id: ')
                     if int(ids) <= k:
                         h = False
                 except ValueError:
@@ -631,23 +668,36 @@ for i in range(0, 99):
                         h = False
                 except ValueError:
                     ids=input('Por favor escriba un numero\n'
-                    'Digite su id')
+                    'Digite su id: ')
             eliminarp2(ids)
 
         elif co == '5':
             condicion = 0
 
     elif condicion == '3':
+        sisi=False
         co = input('\n1. Registrar Venta\n2. Buscar Venta\n3. Actualizar Venta\n4. Eliminar Venta\n5. Volver al Menú Principal\n')
         if co == '1':
             f=f+1
-            idp = input("Ingrese el id del producto ")
-            while idp == '' or int(idp)<0:
-                idp = input("Ingrese nuevamente el id del producto ")
+            while h:
+                idp = input('Digite el id del producto')
+                try:
+                    while idp == '' or int(idp) < 0:
+                        idp=input('Ese numero no corresponde a ninguna id registrada\n'
+                        'Digite nuevamente su id: ')
+                    if int(idp) <= c:
+                        h = False
+                except ValueError:
+                    idp=input('Por favor escriba un numero\n'
+                    'Digite su id: ')
+
             idc = input("Ingrese el id del cliente: ")
             while idc == '' or int(idc)<0:
                 idc = input("Ingrese nuevamente el id del cliente: ")
-            fecha = input("Ingrese la fecha: ")
+            while sisi == False:
+                fecha = input("Ingrese la fecha\n"
+                "Recuerde que la fecha debe de estar en formato YYYY/MM/DD: ")
+                sisi=validarFecha(fecha)  
             cantidad = input('Ingrese la cantidad de venta: ')
             while cantidad == '' or cantidad < 0:
                 cantidad = input('Ingrese nuevamente la cantidad de venta: ')
@@ -690,6 +740,7 @@ for i in range(0, 99):
             while idc == '' or int(idc)<0:
                 idc = input("Ingrese nuevamente el id del cliente: ")
             fecha = input("Ingrese la fecha: ")
+            
             cantidad = input('Ingrese la cantidad de venta: ')
             while cantidad == '' or cantidad < 0:
                 cantidad = input('Ingrese nuevamente la cantidad de venta: ')
@@ -767,10 +818,14 @@ for i in range(0, 99):
                     print('Por favor escriba un numero')
                     print('¿Cual es su id?')
                     ids = input()
-            idc = input("Ingrese el id de la compra ")
-            while idc == '' or int(idc)<0:
-                idc = input("Id de la compra inválido, ingrese nuevamente el id del producto, \n"
-                "Recuerde que no es válido ingresar ids negativos ")
+                try:
+                    idc = input("Ingrese el id de la compra ")
+                    while idc == '' or int(idc)<0:
+                        idc = input("Id de la compra inválido, ingrese nuevamente el id del producto, \n"
+                        "Recuerde que no es válido ingresar ids negativos ")
+                except ValueError:
+                    idc = input("Id de la compra inválido, ingrese nuevamente el id del producto, \n"
+                    "Recuerde que no es válido ingresar ids negativos ")
             idp = input("Ingrese el id del producto: ")
             while idp == '' or int(idp)<0:
                 idp = input("Id del producto inválido, ingrese nuevamente el id del producto, \n"

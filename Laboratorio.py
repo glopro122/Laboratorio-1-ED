@@ -291,9 +291,10 @@ def productos_menor_stock():
         for line in lines[1:]:
             v = line.strip().split(',')
             productos.append((v[1], int(v[4])))
+            
         for i in range(len(productos)):
             for j in range(i + 1, len(productos)):
-                if productos[i]["Stock"] > productos[j]["Stock"]:
+                if productos[i][1] > productos[j][1]:
                     productos[i], productos[j] = productos[j], productos[i]
 
         for producto in productos[:3]:

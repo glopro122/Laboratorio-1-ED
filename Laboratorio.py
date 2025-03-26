@@ -129,11 +129,6 @@ def eliminarp(id):
                 l=l+1
                 v =line.split(',')
                 if v[0] != 'ID_Producto' and int(v[0]) == int(id):
-<<<<<<< HEAD
-=======
-                    for i in producto:
-                        file.write('')
->>>>>>> 8268dd1eeff69c9be2048bfac24eccb6b673ea18
                     k = 0
                 elif k != 0 and l==j:
                     file.write(line)

@@ -127,7 +127,7 @@ def eliminarp(id):
            for line in lines:
                 l=l+1
                 v =line.split(',')
-                if  int(v[0]) == int(id):
+                if v[0] != 'ID_Producto' and int(v[0]) == int(id):
                     for i in productos:
                         file.write('')
                     k = 0
@@ -285,6 +285,38 @@ def eliminarv(id):
                 else:
                     file.write(line)
 
+def productos_menor_stock():
+    with open("productos.csv", 'r') as file:
+        lines = file.readlines()
+        productos = []
+        for line in lines[1:]:
+            v = line.strip().split(',')
+            productos.append((v[1], int(v[4])))
+        productos.sort(key=lambda x: x[1])
+        for producto in productos[:5]:
+            print(f"Producto: {producto[0]}, Stock: {producto[1]}")
+
+def proveedores_mas_frecuentes():
+    proveedores = {}
+    with open("compras.csv", 'r') as file:
+        lines = file.readlines()
+        for line in lines[1:]:  # Saltar la primera línea que es el encabezado
+            v = line.strip().split(',')
+            proveedor_id = v[2]
+            if proveedor_id in proveedores:
+                proveedores[proveedor_id] += 1
+            else:
+                proveedores[proveedor_id] = 1
+    proveedores = sorted(proveedores.items(), key=lambda x: x[1], reverse=True)
+    
+    with open("proveedores.csv", 'r') as file:
+        proveedores_lines = file.readlines()
+        proveedores_dict = {line.split(',')[0]: line.split(',')[1] for line in proveedores_lines[1:]}
+    
+    for proveedor in proveedores[:5]:
+        proveedor_nombre = proveedores_dict.get(proveedor[0], "Desconocido")
+        print(f"Proveedor: {proveedor_nombre}, Frecuencia: {proveedor[1]}")
+
 producto = [
     {"ID_Producto": 1, "Nombre": "Laptop", "Categoría": "Electrónica", "Precio": 2000000, "Stock": 50},
     {"ID_Producto": 2, "Nombre": "Zapatos", "Categoría": "Calzado", "Precio": 270000, "Stock": 10},
@@ -346,15 +378,11 @@ for i in range(0, 99):
                 nombre=input ('Nombre inválido, Digitelo nuevamente')
             categoria = input("Ingrese la categoría del producto: ")
             while categoria =='':
-                categpria=input ('Catagoria inválido, Digitelo nuevamente:')
+                categpria=input ('Catagoria inválido, Digitelo nuevamente')
             precio = input("Ingrese el precio del producto: ")
-            while precio == '' or int(precio)<0:
-                precio=input('precion inválid0, digitelo nievamente \n'
-                'Recuerde que no se permiten datos negativos ')
+            while precio == '':
+                precio=input('precion inválid0, digitelo nievamente: ')
             stock = input("Ingrese el stock del producto: ")
-            while stock == '' or int(stock)<0:
-                stock=input("stock inválidpo, ingrese nuevamente el stock \n"
-                "Recuerde que no se permiten datos negativos")
             producto = Producto(k, nombre , categoria, precio, stock)
             escribir('productos.csv',producto)
             print(' \nAgregado con exito \n')
@@ -365,7 +393,7 @@ for i in range(0, 99):
                 try:
                     while ids == '' or int(ids) >k:
                         print('Ese numero no corresponde a ninguna id registrada')
-                        print('Registre nuevamente su id: ')
+                        print('¿Cual es la id?')
                         ids = input()
                     if int(ids) <= k:
                         h = False
@@ -391,19 +419,9 @@ for i in range(0, 99):
                     print('¿Cual es su id?')
                     ids = input()
             nombre = input("Ingrese el nombre del producto: ")
-            while nombre == '':
-                nombre = input("Ingrese nuevamente el nombre del producto: ")
             categoria = input("Ingrese la categoría del producto: ")
-            while categoria == '':
-                categoria = input("Ingrese nuevamente la categoría del producto: ")
             precio = input("Ingrese el precio del producto: ")
-            while precio == '' or int(precio) < 0:
-                precio = input("Ingrese nuevamente el precio del producto: \n"
-                "Recuerde que no se admiten valorse negativos ")
             stock = input("Ingrese el stock del producto: ")
-            while stock == '' or int(stock) <0:
-                stock = input("Ingrese nuevamente el stock del producto, \n"
-                "Recuerde que no se admiten valores negativos: ")
             productos = [{"Nombre":nombre ,"Categoría":categoria, "Precio":precio, "Stock":stock}]
             actualizarp(ids,productos)
 
@@ -433,15 +451,8 @@ for i in range(0, 99):
         if co == '1':
             c=c+1
             nombre = input("Ingrese el nombre del proveedor: ")
-            while nombre == '':
-                nombre = input("Ingrese nuevamente el nombre del proveedor: ")
             contacto = input("Ingrese el contacto del proveedor: ")
-            while contacto == '':
-                contacto = input("Ingrese nuevamente el contacto del proveedor, \n"
-                "Recuerde que solo se admiten valores: ")
             direccion = input("Ingrese la direccion del proveedor: ")
-            while direccion == '':
-                direccion = input("Ingrese la direccion del proveedor: \n")
             nuevopro = Proveedor(c,nombre ,contacto, direccion)
             escribir('proveedores.csv',nuevopro)
             print(' \nAgregado con exito \n')
@@ -452,13 +463,15 @@ for i in range(0, 99):
             while h:
                 try:
                     while ids == '' or int(ids) >c:
-                        ids=input('Ese numero no corresponde a ninguna id registrada\n'
-                        'digite nuevamente su id: ')
+                        print('Ese numero no corresponde a ninguna id registrada')
+                        print('¿Cual es su id?')
+                        ids = input()
                     if int(ids) <= c:
                         h = False
                 except ValueError:
-                    ids=input('Ese numero no corresponde a ninguna id registrada\n'
-                    'digite nuevamente su id: ')
+                    print('Por favor escriba un numero')
+                    print('¿Cual es su id?')
+                    ids = input()
             mostrarp2(ids)
 
         elif co == '3':
@@ -477,14 +490,8 @@ for i in range(0, 99):
                     print('¿Cual es su id?')
                     ids = input()
             nombre = input("Ingrese el nombre del proveedor: ")
-            while nombre == '':
-                nombre = input("Ingrese nuevamente el nombre del proveedor: ")
             contacto = input("Ingrese el contacto del proveedor: ")
-            while contacto == '':
-                contacto = input("Ingrese nuevamente el contacto del proveedor: ")
             direccion = input("Ingrese la direccion del proveedor: ")
-            while direccion == '':
-                direccion = input("Ingrese nuevamente la direccion del proveedor: ")
             productos = [{"Nombre":nombre ,"Contacto":contacto, "Direccion":direccion}]
             actualizarp2(ids,productos)
 
@@ -510,22 +517,13 @@ for i in range(0, 99):
 
     elif condicion == '3':
         co = input('\n1. Registrar Venta\n2. Buscar Venta\n3. Actualizar Venta\n4. Eliminar Venta\n5. Volver al Menú Principal\n')
+
         if co == '1':
             f=f+1
             idp = input("Ingrese el id del producto ")
-            while idp == '' or int(idp)<0:
-                idp = input("Id del producto inválido, ingrese nuevamente el id del producto, \n"
-                "Recuerde que no es válido ingresar ids negativos ")
             idc = input("Ingrese el id del cliente: ")
-            while idc == '' or int(idc)<0:
-                idc = input("Id del cliente inválido, ingrese nuevamente el id del cliente: \n"
-                "Recuerde que el id debe ser positivio")
             fecha = input("Ingrese la fecha: ")
-            while fecha == '':
-                fecha = input("Fecha inválida. ingrese nuevamente la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
-            while cantidad == '' or int(cantidad)<0:
-                cantidad=input("Cantidad inválida, ingrese nuevamente la cantidad del producto")
             venta = Venta(f, idp, idc, fecha, cantidad)
             escribir('ventas.csv',venta)
             resta(cantidad,idp)
@@ -564,19 +562,9 @@ for i in range(0, 99):
                     print('¿Cual es su id?')
                     ids = input()
             idp = input("Ingrese el id del producto ")
-            while idp == '' or int(idp)<0:
-                idp = input("Id del producto inválido, ingrese nuevamente el id del producto, \n"
-                "Recuerde que no es válido ingresar ids negativos ")
             idc = input("Ingrese el id del cliente: ")
-            while idc == '' or int(idc)<0:
-                idc = input("Id del cliente inválido, ingrese nuevamente el id del cliente: \n"
-                "Recuerde que el id debe ser positivio")
             fecha = input("Ingrese la fecha: ")
-            while fecha == '':
-                fecha = input("Fecha inválida. ingrese nuevamente la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
-            while cantidad == '' or int(cantidad)<0:
-                cantidad=input("Cantidad inválida, ingrese nuevamente la cantidad del producto")
             ventas = [{"ID_Producto":idp ,"ID_Cliente":idc, "Fecha_Venta":fecha, "Cantidad":cantidad}]
             actualizarv(ids,ventas)
 
@@ -604,20 +592,10 @@ for i in range(0, 99):
         co = input('\n1. Registrar Compra\n2. Buscar Compra\n3. Actualizar Compra\n4. Eliminar Compra\n5. Volver al Menú Principal\n')
         if co == '1':
             j=j+1
-            idp = input("Ingrese el id del producto ")
-            while idp == '' or int(idp)<0:
-                idp = input("Id del producto inválido, ingrese nuevamente el id del producto, \n"
-                "Recuerde que no es válido ingresar ids negativos ")
+            idp = input("Ingrese el id del producto: ")
             idc = input("Ingrese el id del cliente: ")
-            while idc == '' or int(idc)<0:
-                idc = input("Id del cliente inválido, ingrese nuevamente el id del cliente: \n"
-                "Recuerde que el id debe ser positivio")
             fecha = input("Ingrese la fecha: ")
-            while fecha == '':
-                fecha = input("Fecha inválida. ingrese nuevamente la fecha: ")
             cantidad = input('Ingrese la cantidad de venta: ')
-            while cantidad == '' or int(cantidad)<0:
-                cantidad=input("Cantidad inválida, ingrese nuevamente la cantidad del producto")
             compras = Compra(j, idp , idc, fecha, cantidad)
             escribir('compras.csv',compras)
             suma(cantidad,idp)
@@ -625,7 +603,12 @@ for i in range(0, 99):
 
     elif condicion == '5':
         co = input('\n1. Productos con menor stock\n2. Proveedores más frecuentes\n3. Ventas por período de tiempo\n4. Productos más vendidos\n')
+        
+        if co == '1':
+            productos_menor_stock()
 
+        elif co == '2':
+            proveedores_mas_frecuentes()
     elif condicion == '6':
         print('\nSaliendo del sistema...')
         break

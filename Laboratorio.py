@@ -116,11 +116,12 @@ def actualizarp(id,productos):
                     file.write(line)
 
 def eliminarp(id):
+    encon=False
     with open('productos.csv', 'r') as file:
         lines = file.readlines()
         j=0
-        for line in lines:
-            j=j+1
+        #for line in lines:
+            #j=j+1
         with open('productos.csv', 'w') as file:
            l=0
            k=1
@@ -128,8 +129,6 @@ def eliminarp(id):
                 l=l+1
                 v =line.split(',')
                 if v[0] != 'ID_Producto' and int(v[0]) == int(id):
-                    for i in productos:
-                        file.write('')
                     k = 0
                 elif k != 0 and l==j:
                     file.write(line)
@@ -395,9 +394,8 @@ for i in range(0, 99):
             while h:
                 try:
                     while ids == '' or int(ids) >k:
-                        print('Ese numero no corresponde a ninguna id registrada')
-                        print('¿Cual es la id?')
-                        ids = input()
+                        ids = input('Por favor escriba un numero \n'
+                        'Digite nuevamete su id')
                     if int(ids) <= k:
                         h = False
                 except ValueError:
@@ -525,7 +523,6 @@ for i in range(0, 99):
 
     elif condicion == '3':
         co = input('\n1. Registrar Venta\n2. Buscar Venta\n3. Actualizar Venta\n4. Eliminar Venta\n5. Volver al Menú Principal\n')
-
         if co == '1':
             f=f+1
             idp = input("Ingrese el id del producto ")
@@ -627,10 +624,8 @@ for i in range(0, 99):
 
     elif condicion == '5':
         co = input('\n1. Productos con menor stock\n2. Proveedores más frecuentes\n3. Ventas por período de tiempo\n4. Productos más vendidos\n')
-        
         if co == '1':
             productos_menor_stock()
-
         elif co == '2':
             proveedores_mas_frecuentes()
     elif condicion == '6':

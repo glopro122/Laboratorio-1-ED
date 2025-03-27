@@ -832,7 +832,7 @@ for i in range(0, 99):
             ventas = [{"ID_Producto":idp ,"ID_Cliente":idc, "Fecha_Venta":fecha, "Cantidad":cantidad}]
             actualizarv(ids,ventas)
 
-                    ids = input('Por favor escriba un número. Dígite su ID: ')
+            ids = input('Por favor escriba un número. Dígite su ID: ')
             while True:
                 idp = input('Digite el ID del producto: ').strip()
                 try:
@@ -925,8 +925,6 @@ for i in range(0, 99):
                     print('Por favor escriba un número')
                     print('¿Cúal es su id?')
                     ids = input()
-            mostrarc(ids)    
-                    ids = input('Por favor escriba un número. Dígite su ID: ')
             mostrarc(ids)
         elif co == '3':
             ids = input('¿Qué compra quiere actualizar? ')
@@ -959,12 +957,7 @@ for i in range(0, 99):
                     print('Error: Ingrese un número entero válido.')
             compras = [{"ID_Compra":idc,"ID_Producto":idp ,"ID_Proveedor":idpr, "Fecha_Compra":fecha, "Cantidad":cantidad}]
             actualizarc(ids,compras)   
-                fecha = input("Fecha inválida. Ingrese nuevamente: ")
-            cantidad = input('Ingrese la cantidad de compra: ')
-            while cantidad == '' or int(cantidad) < 0:
-                cantidad = input("Cantidad inválida. Ingrese nuevamente: ")
-            compras = [{"ID_Compra": ids, "ID_Producto": idp, "ID_Proveedor": idpr, "Fecha_Compra": fecha, "Cantidad": cantidad}]
-            actualizarc(ids, compras)
+            
         elif co == '4':
             ids = input('¿Qué compra quiere eliminar? ')
             while h:

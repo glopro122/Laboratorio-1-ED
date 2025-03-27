@@ -508,6 +508,9 @@ k=4
 f=4
 y=4
 j=4
+w=4
+z=4
+q=4
 for i in range(0, 99):
     create_indexp()
     create_indexp2()
@@ -785,21 +788,12 @@ for i in range(0, 99):
         if co == '1':
             while v:
                 f = f + 1
+                q=q+1
                 while True:
                     idp = input('Digite el ID del producto: ').strip()
                     try:
                         idp_num = int(idp)
                         if idp_num <= 0:
-                            print("Error: El ID debe ser positivo.")
-                        else:
-                            break
-                    except ValueError:
-                        print("Error: Ingrese un número válido para el ID.")
-                while True:
-                    idc = input("Ingrese el ID del cliente: ").strip()
-                    try:
-                        idc_num = int(idc)
-                        if idc_num <= 0:
                             print("Error: El ID debe ser positivo.")
                         else:
                             break
@@ -821,10 +815,10 @@ for i in range(0, 99):
                     except ValueError:
                         print('Error: Ingrese un número entero válido.')
                         continue
-                venta = Venta(f, idp, idc, fecha, cantidad)
+                venta = Venta(f, idp, q, fecha, cantidad)
                 escribir('ventas.csv', venta)
                 po = resta(cantidad, idp)
-                if not po:
+                if z == 'False':
                     print(f"Error: No hay suficiente stock disponible.")
                     opcion_stock = input("¿Qué desea hacer?\n1. Ingresar otra cantidad\n2. Volver al menú principal\nSeleccione (1-2): ").strip()
                     if opcion_stock == '1':
@@ -851,6 +845,7 @@ for i in range(0, 99):
                 else:
                     f=False
                     print('\n✅ Venta registrada con éxito\n')
+                    break
         elif co == '2':
             ids = input('¿Qué venta quiere buscar? ')
             while h:
@@ -946,32 +941,8 @@ for i in range(0, 99):
         co = input("Seleccione una opción (1-5): ")
         if co == '1':
             j = j + 1
-            while True:
-                idp = input('Digite el ID del producto: ').strip()
-                try:
-                    idp_num = int(idp)
-                    if idp_num <= 0:
-                        print("Error: El ID debe ser positivo.")
-                    elif idp_num > k:
-                        break
-                    else:
-                        break
-                except ValueError:
-                    print("Error: Ingrese un número válido para el ID.")
-            
-            while True:
-                idpr = input('Digite el ID del producto: ').strip()
-                try:
-                    idpr_num = int(idpr)
-                    if idpr_num <= 0:
-                        print("Error: El ID debe ser positivo.")
-                    elif idpr_num > k:
-                        break
-                    else:
-                        break
-                except ValueError:
-                    print("Error: Ingrese un número válido para el ID.")
-            
+            w=w+1
+            z=z+1
             fecha = input("Ingrese la fecha en el forma de Año, Mes y Día, separándolos por un /: ")
             sisi = validarFecha(fecha)
             while not sisi:
@@ -988,7 +959,7 @@ for i in range(0, 99):
                  except ValueError:
                      print('Error: Ingrese un número entero válido.')
 
-            compras = Compra(j, idp , idpr, fecha, cantidad)
+            compras = Compra(j, w , z, fecha, cantidad)
             escribir('compras.csv',compras)
             suma(cantidad,idp)
             print(' \nAgregado con exito \n')
@@ -1028,8 +999,6 @@ for i in range(0, 99):
                         break
                 except ValueError:
                     print("Error: Ingrese un número válido para el ID.")
-
-
             while True:
                 idpr = input('Digite el ID del proveedor: ').strip()
                 try:
@@ -1042,8 +1011,6 @@ for i in range(0, 99):
                         break
                 except ValueError:
                     print("Error: Ingrese un número válido para el ID.")
-                
-                
             fecha = input("Ingrese la fecha en el forma de Año, Mes y Día, separándolos por un /: ")
             sisi = validarFecha(fecha)
             while not sisi:

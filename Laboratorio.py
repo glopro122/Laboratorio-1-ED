@@ -194,15 +194,24 @@ def eliminarp2(id):
                     file.write(line)
 
 def resta(cantidad,id):
+    z=True
     with open("productos.csv", 'r') as file:
         lines = file.readlines()
     with open("productos.csv", 'w') as file:
         for line in lines:   
             v =line.split(',')
             if v[0] == id:
-                nuevo_stock =  int(v[4]) - int(cantidad)   
-                v[4]=str(nuevo_stock)
-                linea = f"{v[0]},{v[1]},{v[2]},{v[3]},{v[4]}\n"
+                try:
+                    stock_actual = int(v[4])
+                    cantidad_vendida = int(cantidad)
+                    if cantidad_vendida > stock_actual:
+                        z=False
+                        v[4] = "0" 
+                    else:
+                        v[4] = str(stock_actual - cantidad_vendida) 
+                    linea = ",".join(v) + "\n"
+                except (ValueError, IndexError):
+                    linea = line
             else:
                 linea = line 
             file.write(linea)
@@ -704,8 +713,6 @@ for i in range(0, 99):
                     idp_num = int(idp)
                     if idp_num <= 0:
                         print("Error: El ID debe ser positivo.")
-                    elif idp_num > c: 
-                        print(f"Error: El ID debe ser menor o igual a {c}.")
                     else:
                         break 
                 except ValueError:
@@ -717,21 +724,32 @@ for i in range(0, 99):
                     if idc_num <= 0:
                         print("Error: El ID debe ser positivo.")
                     else:
-                        break
+                        break 
                 except ValueError:
                     print("Error: Ingrese un número válido para el ID.")
-            fecha = input ("Ingrese la fecha en el forma de Año, Mes y Dia, separandolos por un /")
+            fecha = input ("Ingrese la fecha en el forma de Año, Mes y Dia, separandolos por un /: ")
+            sisi=validarFecha(fecha)
             while sisi == False:
-                fecha = input("Ingrese la fecha de la venta\n"
+                fecha = input("Fecha inválida\n"
                 "recuerde que la fecha debe de estar en formato YYYY/MM/DD: ")
                 sisi=validarFecha(fecha) 
-            cantidad = input('Ingrese la cantidad de venta: ')
-            while cantidad == '' or int(cantidad) < 0:
-                cantidad = input('Ingrese nuevamente la cantidad de venta: ')
+            while True:
+                cantidad = input('Ingrese la cantidad de venta: ').strip()
+                try:
+                    cantidad_num = int(cantidad)
+                    if cantidad_num <= 0:
+                        print('Error: La cantidad debe ser mayor a 0.')
+                    else:
+                        break
+                except ValueError:
+                    print('Error: Ingrese un número entero válido.')
             venta = Venta(f, idp, idc, fecha, cantidad)
             escribir('ventas.csv',venta)
-            resta(cantidad,idp)
-            print(' \nAgregado con exito \n')
+            po=resta(cantidad,idp)
+            if po == False:
+                print(f"Error: No hay suficiente stock. Disponible")
+            else:
+                print(' \nAgregado con exito \n')
 
         elif co == '2':
             ids = input('¿Que venta quiere buscar?')
@@ -775,9 +793,16 @@ for i in range(0, 99):
                 fecha = input("Ingrese la fecha\n"
                 "Recuerde que la fecha debe de estar en formato YYYY/MM/DD: ")
                 sisi=validarFecha(fecha) 
-            cantidad = input('Ingrese la cantidad de venta: ')
-            while cantidad == '' or int(cantidad) < 0:
-                cantidad = input('Ingrese nuevamente la cantidad de venta: ')
+            while True:
+                cantidad = input('Ingrese la cantidad de venta: ').strip()
+                try:
+                    cantidad_num = int(cantidad)
+                    if cantidad_num <= 0:
+                        print('Error: La cantidad debe ser mayor a 0.')
+                    else:
+                        break
+                except ValueError:
+                    print('Error: Ingrese un número entero válido.')
             ventas = [{"ID_Producto":idp ,"ID_Cliente":idc, "Fecha_Venta":fecha, "Cantidad":cantidad}]
             actualizarv(ids,ventas)
 

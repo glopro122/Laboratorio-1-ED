@@ -148,8 +148,8 @@ def mostrarp2(id):
             v =line.split(',')
             if v[0] != 'id' and int(v[0]) == int(id):
                 print('La id del proveedor es: '+v[0]+'\nEl nombre del proveedor es: '+ v[1] +'\nEl contacto del proveedor es: '+v[2]+'\nLa direccion del proveedor es: '+v[3]+v[4]+v[5])
-            elif k==j:
-                print('El pedido no existe')
+            #elif k==j:
+                #print('El pedido no existe')
 
 def actualizarp2(id,proveedores):
     with open('proveedores.csv', 'r') as file:
@@ -700,7 +700,7 @@ for i in range(0, 99):
                         ids = input('Ese número no corresponde a ninguna ID registrada. Dígite nuevamente su ID: ')
                     while int(ids)<=0:
                         print("Error: El ID debe ser positivo.")
-                        ids = input('¿Ingrese el id del producto que desea actualizar? ')
+                        ids = input('¿Ingrese el id del proveedor que desea actualizar? ')
                     if int(ids) <= k:
                         h = False
                 except ValueError:
@@ -935,7 +935,6 @@ for i in range(0, 99):
             eliminarv(ids)
         elif co == '5':
             continue
-
     elif condicion == '4':
         print("\nGestión de Compras")
         print("1. Registrar Compra")
@@ -1042,7 +1041,15 @@ for i in range(0, 99):
         print("2. Proveedores más frecuentes")
         print("3. Ventas por período de tiempo")
         print("4. Productos más vendidos")
+        print("5. Volver al menú principal")
         co = input("Seleccione una opción (1-4): ")
+        while int(co)<1 or int(co)>5:
+            print('Opción inválida')
+            print("1. Productos con menor stock")
+            print("2. Proveedores más frecuentes")
+            print("3. Ventas por período de tiempo")
+            print("4. Productos más vendidos")
+            co = input("Seleccione una opción que este en el rango de (1-4): ")
         if co == '1':
             productos_menor_stock()
         elif co == '2':

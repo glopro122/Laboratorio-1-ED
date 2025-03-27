@@ -697,9 +697,12 @@ for i in range(0, 99):
             ids = input('¿Qué proveedor quiere buscar? ')
             while h:
                 try:
-                    while ids == '' or int(ids) > c:
+                    while ids == '' or int(ids) > k :
                         ids = input('Ese número no corresponde a ninguna ID registrada. Dígite nuevamente su ID: ')
-                    if int(ids) <= c:
+                    while int(ids)<=0:
+                        print("Error: El ID debe ser positivo.")
+                        ids = input('¿Ingrese el id del producto que desea actualizar? ')
+                    if int(ids) <= k:
                         h = False
                 except ValueError:
                     ids = input('Por favor escriba un número. Dígite su ID: ')
@@ -712,7 +715,7 @@ for i in range(0, 99):
                         ids = input('Ese número no corresponde a ninguna ID registrada. Dígite nuevamente su ID: ')
                     while int(ids)<=0:
                         print("Error: El ID debe ser positivo.")
-                        ids = input('¿Ingrese el id del producto que desea actualizar? ')
+                        ids = input('¿Ingrese el id del proveedor que desea actualizar? ')
                     if int(ids) <= k:
                         h = False
                 except ValueError:
@@ -748,9 +751,12 @@ for i in range(0, 99):
             ids = input('¿Qué proveedor quiere eliminar? ')
             while h:
                 try:
-                    while ids == '' or int(ids) > c:
+                    while ids == '' or int(ids) > k :
                         ids = input('Ese número no corresponde a ninguna ID registrada. Dígite nuevamente su ID: ')
-                    if int(ids) <= c:
+                    while int(ids)<=0:
+                        print("Error: El ID debe ser positivo.")
+                        ids = input('¿Ingrese el id del producto que desea actualizar? ')
+                    if int(ids) <= k:
                         h = False
                 except ValueError:
                     ids = input('Por favor escriba un número. Dígite su ID: ')

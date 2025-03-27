@@ -206,7 +206,6 @@ def resta(cantidad,id):
                     cantidad_vendida = int(cantidad)
                     if cantidad_vendida > stock_actual:
                         z=False
-                        v[4] = "0" 
                     else:
                         v[4] = str(stock_actual - cantidad_vendida) 
                     linea = ",".join(v) + "\n"
@@ -765,6 +764,7 @@ for i in range(0, 99):
             continue
 
     elif condicion == '3':
+        v=True
         print("\n---Gestión de Ventas---")
         print("1. Registrar Venta")
         print("2. Buscar Venta")
@@ -782,49 +782,74 @@ for i in range(0, 99):
             co = input("Seleccione una opción que esté en el rango de (1-5): ")
         sisi = False
         if co == '1':
-            f = f + 1
-            while True:
-                idp = input('Digite el ID del producto: ').strip()
-                try:
-                    idp_num = int(idp)
-                    if idp_num <= 0:
-                        print("Error: El ID debe ser positivo.")
-                    else:
-                        break
-                except ValueError:
-                    print("Error: Ingrese un número válido para el ID.")
-            while True:
-                idc = input("Ingrese el ID del cliente: ").strip()
-                try:
-                    idc_num = int(idc)
-                    if idc_num <= 0:
-                        print("Error: El ID debe ser positivo.")
-                    else:
-                        break
-                except ValueError:
-                    print("Error: Ingrese un número válido para el ID.")
-            fecha = input("Ingrese la fecha en el forma de Año, Mes y Día, separándolos por un /: ")
-            sisi = validarFecha(fecha)
-            while not sisi:
-                fecha = input("Fecha inválida. Recuerde que la fecha debe estar en formato YYYY/MM/DD: ")
+            while v:
+                f = f + 1
+                while True:
+                    idp = input('Digite el ID del producto: ').strip()
+                    try:
+                        idp_num = int(idp)
+                        if idp_num <= 0:
+                            print("Error: El ID debe ser positivo.")
+                        else:
+                            break
+                    except ValueError:
+                        print("Error: Ingrese un número válido para el ID.")
+                while True:
+                    idc = input("Ingrese el ID del cliente: ").strip()
+                    try:
+                        idc_num = int(idc)
+                        if idc_num <= 0:
+                            print("Error: El ID debe ser positivo.")
+                        else:
+                            break
+                    except ValueError:
+                        print("Error: Ingrese un número válido para el ID.")
+                fecha = input("Ingrese la fecha en el forma de Año, Mes y Día, separándolos por un /: ")
                 sisi = validarFecha(fecha)
-            while True:
-                cantidad = input('Ingrese la cantidad de venta: ').strip()
-                try:
-                    cantidad_num = int(cantidad)
-                    if cantidad_num <= 0:
-                        print('Error: La cantidad debe ser mayor a 0.')
-                    else:
+                while not sisi:
+                    fecha = input("Fecha inválida. Recuerde que la fecha debe estar en formato YYYY/MM/DD: ")
+                    sisi = validarFecha(fecha)
+                while True:
+                    cantidad = input('Ingrese la cantidad de venta: ').strip()
+                    try:
+                        cantidad_num = int(cantidad)
+                        if cantidad_num <= 0:
+                            print('Error: La cantidad debe ser mayor a 0.')
+                        else:
+                            break
+                    except ValueError:
+                        print('Error: Ingrese un número entero válido.')
+                        continue
+                venta = Venta(f, idp, idc, fecha, cantidad)
+                escribir('ventas.csv', venta)
+                po = resta(cantidad, idp)
+                if not po:
+                    print(f"Error: No hay suficiente stock disponible.")
+                    opcion_stock = input("¿Qué desea hacer?\n1. Ingresar otra cantidad\n2. Volver al menú principal\nSeleccione (1-2): ").strip()
+                    if opcion_stock == '1':
+                        while True:
+                            cantidad = input('Ingrese la cantidad de venta: ').strip()
+                            try:
+                                cantidad_num = int(cantidad)
+                                if cantidad_num <= 0:
+                                    print('Error: La cantidad debe ser mayor a 0.')
+                                else:
+                                    break
+                            except ValueError:
+                                print('Error: Ingrese un número entero válido.')
+                                continue  
+                        venta = Venta(f, idp, idc, fecha, cantidad)
+                        escribir('ventas.csv', venta)
+                        po = resta(cantidad, idp)
                         break
-                except ValueError:
-                    print('Error: Ingrese un número entero válido.')
-            venta = Venta(f, idp, idc, fecha, cantidad)
-            escribir('ventas.csv', venta)
-            po = resta(cantidad, idp)
-            if not po:
-                print(f"Error: No hay suficiente stock disponible.")
-            else:
-                print('\nVenta registrada con éxito\n')
+                    elif opcion_stock == '2':
+                        break
+                    else:
+                        print("Opción no válida. Volviendo al menú.")
+                        break
+                else:
+                    f=False
+                    print('\n✅ Venta registrada con éxito\n')
         elif co == '2':
             ids = input('¿Qué venta quiere buscar? ')
             while h:

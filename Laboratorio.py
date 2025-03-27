@@ -560,13 +560,14 @@ for i in range(0, 99):
                         break
                     else:
                         print('El precio no puede ser negativo')
+                        
                 except ValueError:
                     print('Por favor ingrese un número válido para el precio')
             while True:
                 stock = input("Ingrese el stock del producto: ")
                 try:
                     stock_num = int(stock)
-                    if stock_num >= 0:
+                    if stock_num >= 0 and stock_num != '':
                         break
                     else:
                         print('El stock no puede ser negativo')
@@ -952,17 +953,30 @@ for i in range(0, 99):
                     if idp_num <= 0:
                         print("Error: El ID debe ser positivo.")
                     elif idp_num > k:
-                        print('Numero no existente en productos')
+                        break
                     else:
                         break
                 except ValueError:
                     print("Error: Ingrese un número válido para el ID.")
-            idpr = input("Ingrese el ID del proveedor: ")
-            while idpr == '' or int(idpr) < 0:
-                idpr = input("ID del proveedor inválido. Ingrese nuevamente: ")
-            fecha = input("Ingrese la fecha: ")
-            while fecha == '':
-                fecha = input("Fecha inválida. ingrese nuevamente la fecha: ")
+            
+            while True:
+                idpr = input('Digite el ID del producto: ').strip()
+                try:
+                    idpr_num = int(idpr)
+                    if idpr_num <= 0:
+                        print("Error: El ID debe ser positivo.")
+                    elif idpr_num > k:
+                        break
+                    else:
+                        break
+                except ValueError:
+                    print("Error: Ingrese un número válido para el ID.")
+            
+            fecha = input("Ingrese la fecha en el forma de Año, Mes y Día, separándolos por un /: ")
+            sisi = validarFecha(fecha)
+            while not sisi:
+                fecha = input("Fecha inválida. Recuerde que la fecha debe estar en formato YYYY/MM/DD: ")
+                sisi = validarFecha(fecha)
             while True:
                  cantidad = input('Ingrese la cantidad de venta: ').strip()
                  try:
@@ -1001,15 +1015,40 @@ for i in range(0, 99):
                         h = False
                 except ValueError:
                     ids = input('Por favor escriba un número. Dígite su ID: ')
-            idp = input("Ingrese el ID del producto: ")
-            while idp == '' or int(idp) < 0:
-                idp = input("ID del producto inválido. Ingrese nuevamente: ")
-            idpr = input("Ingrese el ID del proveedor: ")
-            while idpr == '' or int(idpr) < 0:
-                idpr = input("ID del proveedor inválido. Ingrese nuevamente: ")
-            fecha = input("Ingrese la fecha: ")
-            while fecha == '':
-                fecha = input("Fecha inválida. ingrese nuevamente la fecha: ")
+            
+            while True:
+                idp = input('Digite el ID del producto: ').strip()
+                try:
+                    idp_num = int(idp)
+                    if idp_num <= 0:
+                        print("Error: El ID debe ser positivo.")
+                    elif idp_num > k:
+                        break
+                    else:
+                        break
+                except ValueError:
+                    print("Error: Ingrese un número válido para el ID.")
+
+
+            while True:
+                idpr = input('Digite el ID del proveedor: ').strip()
+                try:
+                    idpr_num = int(idpr)
+                    if idpr_num <= 0:
+                        print("Error: El ID debe ser positivo.")
+                    elif idpr_num > k:
+                        break
+                    else:
+                        break
+                except ValueError:
+                    print("Error: Ingrese un número válido para el ID.")
+                
+                
+            fecha = input("Ingrese la fecha en el forma de Año, Mes y Día, separándolos por un /: ")
+            sisi = validarFecha(fecha)
+            while not sisi:
+                fecha = input("Fecha inválida. Recuerde que la fecha debe estar en formato YYYY/MM/DD: ")
+                sisi = validarFecha(fecha)
             while True:
                 cantidad = input('Ingrese la cantidad de venta: ').strip()
                 try:

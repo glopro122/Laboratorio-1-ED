@@ -515,10 +515,11 @@ for i in range(0, 99):
     create_indexv()
     create_indexc()
     h = True
+    ñ = True
     idp = ''
     condicion= input('¿Que desea hacer? \n1. Gestión de Productos \n2. Gestión de Proveedores \n3. Gestión de Ventas \n4. Gestión de Compras \n5. Reportes \n6. Salir\n')
     while int(condicion)< 1 or int(condicion) > 6:
-        print ('Opcion Invalida, digite nuevamente')
+        print ('Opción Inválida, digite nuevamente')
         condicion = input('¿Que desea hacer? \n1. Gestión de Productos \n2. Gestión de Proveedores \n3. Gestión de Ventas \n4. Gestión de Compras \n5. Reportes \n6. Salir\n')
 
     if condicion == '1':
@@ -530,7 +531,7 @@ for i in range(0, 99):
                 nombre=input ('Nombre inválido, Digitelo nuevamente')
             categoria = input("Ingrese la categoría del producto: ")
             while categoria =='':
-                categpria=input ('Catagoria inválido, Digitelo nuevamente')
+                categpria=input ('Catagoria inválida, Digitelo nuevamente')
             while True:
                 precio = input("Ingrese el precio del producto: ")
                 try:
@@ -635,8 +636,24 @@ for i in range(0, 99):
             while nombre == '':
                 nombre = input("Ingrese nuevamente el nombre del proveedor: ")
             contacto = input("Ingrese el contacto del proveedor: ")
-            while contacto == '':
-                contacto = input("Ingrese nuevamente el contacto del proveedor: ")
+            conta = contacto
+            while ñ:
+                try:
+                    while contacto == '':
+                        contacto = input("Ingrese nuevamente el contacto del proveedor: ")
+                    while conta != '':
+                        cont = contacto.split('@')
+                        concon = cont[1]
+                        con = concon.split('.')
+                        if len(con[1]) >= 1:
+                            ñ = False
+                            conta = ''
+                        else:
+                            print('Digite un correo valido')
+                            contacto = input()
+                except IndexError:
+                    print('Digite un correo valido')
+                    contacto = input()
             direccion = input("Ingrese la direccion del proveedor: ")
             while direccion == '':
                 direccion = input("Ingrese nuevamente la direccion del proveedor: ")
@@ -676,8 +693,24 @@ for i in range(0, 99):
             while nombre == '':
                 nombre = input("Ingrese nuevamente el nombre del proveedor: ")
             contacto = input("Ingrese el contacto del proveedor: ")
-            while contacto == '':
-                contacto = input("Ingrese nuevamente el contacto del proveedor: ")
+            conta = contacto
+            while ñ:
+                try:
+                    while contacto == '':
+                        contacto = input("Ingrese nuevamente el contacto del proveedor: ")
+                    while conta != '':
+                        cont = contacto.split('@')
+                        concon = cont[1]
+                        con = concon.split('.')
+                        if len(con[1]) >= 1:
+                            ñ = False
+                            conta = ''
+                        else:
+                            print('Digite un correo valido')
+                            contacto = input()
+                except IndexError:
+                    print('Digite un correo valido')
+                    contacto = input()
             direccion = input("Ingrese la direccion del proveedor: ")
             while direccion == '':
                 direccion = input("Ingrese nuevamente la direccion del proveedor: ")
@@ -788,7 +821,6 @@ for i in range(0, 99):
                         break
                 except ValueError:
                     print("Error: Ingrese un número válido para el ID.")
-                
             while sisi == False:
                 fecha = input("Ingrese la fecha\n"
                 "Recuerde que la fecha debe de estar en formato YYYY/MM/DD: ")
@@ -838,9 +870,16 @@ for i in range(0, 99):
             fecha = input("Ingrese la fecha: ")
             while fecha == '':
                 fecha = input("Fecha inválida. ingrese nuevamente la fecha: ")
-            cantidad = input('Ingrese la cantidad de venta: ')
-            while cantidad == '' or int(cantidad)<0:
-                cantidad=input("Cantidad inválida, ingrese nuevamente la cantidad del producto")
+            while True:
+                cantidad = input('Ingrese la cantidad de venta: ').strip()
+                try:
+                    cantidad_num = int(cantidad)
+                    if cantidad_num <= 0:
+                        print('Error: La cantidad debe ser mayor a 0.')
+                    else:
+                        break
+                except ValueError:
+                    print('Error: Ingrese un número entero válido.')
             compras = Compra(j, idp , idpr, fecha, cantidad)
             escribir('compras.csv',compras)
             suma(cantidad,idp)
@@ -857,8 +896,8 @@ for i in range(0, 99):
                     if int(ids) <= f:
                         h = False
                 except ValueError:
-                    print('Por favor escriba un numero')
-                    print('¿Cual es su id?')
+                    print('Por favor escriba un número')
+                    print('¿Cúal es su id?')
                     ids = input()
             mostrarc(ids)    
         elif co == '3':
@@ -895,9 +934,16 @@ for i in range(0, 99):
             fecha = input("Ingrese la fecha: ")
             while fecha == '':
                 fecha = input("Fecha inválida. ingrese nuevamente la fecha: ")
-            cantidad = input('Ingrese la cantidad de la compra: ')
-            while cantidad == '' or int(cantidad)<0:
-                cantidad=input("Cantidad inválida, ingrese nuevamente la cantidad del producto")
+            while True:
+                cantidad = input('Ingrese la cantidad de venta: ').strip()
+                try:
+                    cantidad_num = int(cantidad)
+                    if cantidad_num <= 0:
+                        print('Error: La cantidad debe ser mayor a 0.')
+                    else:
+                        break
+                except ValueError:
+                    print('Error: Ingrese un número entero válido.')
             compras = [{"ID_Compra":idc,"ID_Producto":idp ,"ID_Proveedor":idpr, "Fecha_Compra":fecha, "Cantidad":cantidad}]
             actualizarc(ids,compras)   
         elif co == '4':
